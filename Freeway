@@ -1,0 +1,476 @@
+#!/usr/bin/env python3
+
+"""
+    AUTHOR: github.com/FLOCK4H
+    Happy Hacking!
+"""
+
+import os
+import sys
+import time
+import subprocess
+import string
+import argparse
+import shutil
+
+from tools.colors import cprint, iprint, wprint, cinput, ColorCodes
+from tools.monitor import Monitor
+from tools.deauth import Deauth
+from tools.beacon_spam import BeaconSpam
+from tools.fuzzer import Fuzzer
+from tools.audit import Audit
+from tools.hopper import channel_hopper
+
+cc = ColorCodes()
+
+def clean():
+    return os.system('clear')
+
+def get_driver_name(iface):
+    try:
+        driver_info = subprocess.check_output(f'ethtool -i {iface} 2>/dev/null', shell=True, encoding='utf-8').strip()
+        for line in driver_info.split('\n'):
+            if line.startswith('driver:'):
+                return line.split(':')[1].strip()
+    except subprocess.CalledProcessError:
+        return "Unknown"
+
+def get_interface():
+    clean()
+    print(f"""{cc.BRIGHT}
+    \t{cc.RED}   _____              {cc.BLUE}                    
+    \t{cc.RED}  |  ___| __ ___  ____{cc.BLUE}_      ____ _ _   _ 
+    \t{cc.RED}  | |_ | '__/ _ \/ _ \{cc.BLUE} \ /\ / / _` | | | |
+    \t{cc.RED}  |  _|| | |  __/  __/{cc.BLUE}\ V  V / (_| | |_| |
+    \t{cc.RED}  |_|  |_|  \___|\___|{cc.BLUE} \_/\_/ \__,_|\__, |
+    \t{cc.RED}                      {cc.BLUE}              |___/ 
+    \t\t{cc.BLUE}{cc.BLINK}   SETUP YOUR WLAN CARD{cc.RESET}          
+
+    """)
+    iprint("Listing network interfaces...\n")
+    try:
+        output = subprocess.check_output('iwconfig', stderr=subprocess.STDOUT, shell=True, encoding='utf-8').strip()
+    except subprocess.CalledProcessError as e:
+        print("Error executing iwconfig:", e)
+        return []
+
+    iface_details = []
+    iface_name = ''
+    mode = ''
+    for line in output.split('\n'):
+        if line and not line.startswith('  '):
+            if iface_name: 
+                driver_name = get_driver_name(iface_name)
+                iface_details.append((iface_name, driver_name, mode))
+            iface_name = line.split()[0]
+            mode = '' 
+        elif 'Mode:' in line:
+            mode = line.split('Mode:')[1].split()[0]
+
+    if iface_name:
+        driver_name = get_driver_name(iface_name)
+        iface_details.append((iface_name, driver_name, mode))
+
+    return iface_details
+
+def show_interfaces(interfaces):
+    max_len_iface = max(len(iface[0]) for iface in interfaces) if interfaces else 0
+    max_len_driver = max(len(iface[1]) for iface in interfaces) if interfaces else 0
+
+    print(f"""{cc.GREEN}{cc.BRIGHT}ID        Name         Driver            Mode{cc.RESET}""")
+    print(f"{cc.GREEN}──────────────────────────────────────────────────────{cc.RESET}")
+    for index, (iface, driver, mode) in enumerate(interfaces, start=1):
+        formatted_iface = f"{cc.BRIGHT}{cc.BLUE}{index})        {iface.ljust(max_len_iface)}        {driver.ljust(max_len_driver)}        {mode}"
+        print(formatted_iface)
+    print(f"{cc.GREEN}──────────────────────────────────────────────────────{cc.RESET}")
+
+def get_terminal_size():
+    columns, rows = shutil.get_terminal_size()
+    return columns, rows
+
+class Welcome:
+    def __init__(self, action):
+        self.fsecurity = False
+        self.action = action
+        self.norm_logo = f"""{cc.BRIGHT}{cc.CYAN}
+                                                   
+███████╗██████╗ ███████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗
+██╔════╝██╔══██╗██╔════╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝
+█████╗  ██████╔╝█████╗  █████╗  ██║ █╗ ██║███████║ ╚████╔╝ 
+██╔══╝  ██╔══██╗██╔══╝  ██╔══╝  ██║███╗██║██╔══██║  ╚██╔╝  
+██║     ██║  ██║███████╗███████╗╚███╔███╔╝██║  ██║   ██║   
+╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   
+\t{cc.MAGENTA}by FLOCK4H
+        """
+
+        self.short_logo = f"""{cc.BRIGHT}{cc.CYAN}
+                                                   
+\t██████╗ ██╗    ██╗ █████╗ ██╗   ██╗
+\t╚════██╗██║    ██║██╔══██╗╚██╗ ██╔╝
+\t █████╔╝██║ █╗ ██║███████║ ╚████╔╝ 
+\t ╚═══██╗██║███╗██║██╔══██║  ╚██╔╝  
+\t██████╔╝╚███╔███╔╝██║  ██║   ██║   
+\t╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝
+\t\t{cc.MAGENTA}by FLOCK4H
+        """
+        self.columns, _ = get_terminal_size()
+        if action is None:
+            self.intro()
+            time.sleep(2.2)
+        self.check_ask_eula()
+
+    def intro(self):
+        clean()
+        if self.columns < 70:
+            print(self.short_logo)
+        else:
+            print(self.norm_logo)
+    
+    def check_ask_eula(self):
+        if os.path.exists("EULA.txt"):
+            self.fsecurity = True
+            return
+        try:
+            clean()
+            cprint("------------------------------- EULA -------------------------------")
+            cprint("")
+            cprint("1) Users must strictly adhere to local legal guidelines", cc.WHITE)
+            cprint("2) Users must not disrupt, introduce chaos, cause damage to others, or to other devices in any circumstances", cc.ORANGE)
+            cprint("3) Redistribution of this software must comply with MIT license standards", cc.WHITE)
+            cprint("4) The authors disclaim all liability for any damage caused by the use of this software", cc.ORANGE)
+            cprint("5) In the event of an investigation, the author will not provide assistance to any parties", cc.WHITE)
+            cprint("")
+            cprint("Remember, the purpose of Freeway is to identify vulnerabilities, not to exploit them!", cc.WHITE)
+            print("")
+
+            self.eula = cinput("Do you accept the EULA? (yes/no)", cc.LIGHT_GREEN)
+            if self.eula == "yes":
+                cprint("Saving the EULA..")
+                with open("EULA.txt", "w") as f:
+                    f.write("User agreed to the EULA.")
+                    self.fsecurity = True
+                time.sleep(1)
+                clean()
+            else:
+                wprint("The EULA was not accepted!")
+                time.sleep(2)
+                sys.exit(1)
+        except Exception as e:
+            wprint(f"Exception in check_ask_eula: {e}")
+
+def eline():
+    """
+        Empty line
+    """
+    return print("")
+
+class Freewayer:
+    def __init__(self, action, parms, interface=[]):
+        self.script_dir = "/usr/local/share/3way"
+        os.makedirs("/usr/local/share/3way", exist_ok=True)
+        self.interface = interface
+        self.action = action
+        self.parms = parms
+        self.welcome = Welcome(action)
+        self.short_logo = self.welcome.short_logo
+        self.norm_logo = self.welcome.norm_logo
+        self.init_app()
+
+    def set_wlan_interface(self):
+        try:
+            choice = cinput('Choose interface/s')
+            selected_indexes = [int(index.strip()) - 1 for index in choice.split(",")]
+            wlan = [self.interfaces[index][0] for index in selected_indexes if index < len(self.interfaces)]
+            wlan = wlan if wlan else ["Invalid choice"]
+            cprint(f'Chosen interface(s): {", ".join(wlan)}, flying away..')
+            time.sleep(1)
+            return wlan
+        except Exception as e:
+            cprint(f'Something went wrong! Please try again: {e}', cc.ORANGE)
+            time.sleep(2)
+            self.set_wlan_interface()
+
+    def init_app(self):
+        try:
+            assert self.welcome, "Invalid agree to EULA"
+            self.option_dict = {
+                "1": self.start_monitoring,
+                "2": self.start_deauth,
+                "3": self.start_beacon_spam,
+                "4": self.start_fuzzing,
+                "5": self.start_audit,
+                "6": self.start_hopper,
+                "monitor": self.start_monitoring,
+                "deauth": self.start_deauth,
+                "beacon_spam": self.start_beacon_spam,
+                "fuzzer": self.start_fuzzing,
+                "audit": self.start_audit,
+                "hopper": self.start_hopper
+            }
+            self.small_term = self.welcome.columns < 70
+            self.logo = f"""{self.short_logo if self.small_term else self.norm_logo}"""
+            self.underline = lambda x: "─" * x
+            self.interfaces = self.interface if self.interface != [] else get_interface()
+            if self.interface == []:
+                show_interfaces(self.interfaces)
+            self.wlan = self.set_wlan_interface() if self.interface == [] else self.interfaces
+            self.act() if self.action is None else self.arg_action(self.action, self.parms)
+        except AssertionError:
+            wprint("EULA not accepted!")
+            sys.exit(0)
+
+    def show_menu(self):
+        clean()
+        print(self.logo)
+        print(self.underline(self.welcome.columns))
+        if self.small_term:
+            cprint("1) Packet Monitor")
+            cprint("2) Deauth\Deassoc")
+            cprint("3) Beacon Flood")
+            cprint("4) Packet Fuzzer")
+            cprint("5) Network Audit")
+            cprint("6) Channel Hopper")
+            eline()
+        else:
+            cprint(f"1) Packet Monitor  {cc.CYAN}──>{cc.GREEN}  Catch APs, Stations, PMKIDs, Handshakes and more..")
+            cprint(f"2) Deauth\Deassoc  {cc.CYAN}──>{cc.GREEN}  Sniff clients in the vicinity and kick them off")
+            cprint(f"3) Beacon Flood\x20\x20\x20 {cc.CYAN}──>{cc.GREEN}  Flood nearby scanners with fake or malformed APs")
+            cprint(f"4) Packet Fuzzer\x20\x20 {cc.CYAN}──>{cc.GREEN}  Inject packets that may cause an AP to crash or freeze")
+            cprint(f"5) Network Audit\x20\x20 {cc.CYAN}──>{cc.GREEN}  Try to gather all possible information about specific AP")
+            cprint(f"6) Channel Hopper  {cc.CYAN}──>{cc.GREEN}  Hop between channels periodically (run in separate window)")
+            
+            eline()
+        option = cinput("Enter option's number", b=True).replace(" ", "")
+        return option
+
+    def arg_action(self, action, parms):
+        if action not in self.option_dict:
+            return wprint(f"{cc.BRIGHT}Wrong input: {action}, {cc.CYAN}available actions:{cc.WHITE} {', '.join(k for k in self.option_dict.keys() if not k.isdigit())}")
+
+        action = self.option_dict.get(action)
+        try:
+            action(parms)
+        except IndexError:
+            eline()
+            iprint(f"Make sure you entered enough parameters, chosen action: {action}\nVisit Github to get more help!")
+            sys.exit(0)
+
+    def act(self):
+        option = self.show_menu()
+        if option not in string.digits or option not in self.option_dict:
+            cprint(f"Wrong input: {option}, only digits corresponding to options are allowed", cc.RED)
+            time.sleep(2)
+            self.act()
+        
+        action = self.option_dict.get(option)
+        if action:
+            action()
+
+    def start_monitoring(self, parms=None):
+        import curses
+        clean()
+        if parms is not None:
+            curses.wrapper(Monitor(self.wlan, parms=parms, filters=parms).start_sniffing)
+            cinput("Press enter to go back to Freeway")
+            return self.act()
+
+        print(self.logo)
+        cprint("─────ADDONS─────", cc.CYAN)
+        eline()
+        mods = {"1": "channel", "2": "manu"}
+        for i, mod in mods.items():
+            cprint(f"{i}) {mod}")
+        eline()
+        cprint("─────FILTERS─────", cc.GREEN)
+        eline()
+        filters = {"a": "Only APs", "c": "Only Clients", "e": "No empty APs", "s": "Stack equal ESSIDs", "n": "No lonely clients", "f": "Save output (.pcap)"}
+        for i, fi in filters.items():
+            cprint(f"{i}) {fi}")
+        eline()
+        params_input = cinput("Enter numbers of addons and filters (all separated by comma ',') or press enter to skip")
+        params_input = params_input.split(",")
+
+        parms = {mods[str(i)]: None for i in params_input if i in mods and i in string.digits}
+        ufilter = {fil: None for fil in params_input if fil in filters}
+        eline()
+        iprint(f"Setting the {self.wlan} mode to monitor")
+        for wlan in self.wlan:
+            os.system(f"sudo iwconfig {wlan} mode monitor")
+        time.sleep(2)
+        
+        curses.wrapper(Monitor(self.wlan, self.script_dir, parms=parms, filters=ufilter).start_sniffing)
+        cinput("Press enter to go back to Freeway")
+        self.act()      
+
+    def start_deauth(self, parms=None):
+        clean()
+
+        if parms is not None:
+            Deauth(interface=self.wlan, parm=parms).run_deauthy()
+            cinput("Press enter to go back to Freeway")
+            return self.act()
+
+        print(self.logo)
+        options = {"1": "single", "2": "client", "6": "global", "3": "channel", "4": "essid", "5": "range", "7": "ap_from_ap", "8": "mass_deauth", "9": "debug", "w": "whitelist"}
+        cprint("1) Single Network (MAC)")
+        cprint("2) Specific Client")
+        cprint("3) Specific Channel")
+        cprint("4) Specific ESSID")
+        cprint("5) Specific Range(dbm)")
+        cprint("6) Global")
+        cprint("7) AP from AP")
+        cprint("8) Mass Deauth (Broadcast -> AP)")
+        cprint("9) Debugging mode")
+        cprint("0) Back to menu")
+        eline()
+        cprint("w) Enable whitelist")
+        eline()
+        uchoice = cinput("User choice (number)")
+
+        if uchoice == "0":
+            return self.act()
+
+        if not uchoice or (uchoice not in options and "w" not in uchoice):
+            wprint("Wrong input! Try again.")
+            time.sleep(2)
+            self.start_deauth()
+
+        Deauth(interface=self.wlan, parm=uchoice).run_deauthy()
+        cinput("Press enter to go back to Freeway")
+        self.act()
+
+    def start_beacon_spam(self, parms=None):
+        clean()
+
+        if parms is not None:
+            BeaconSpam(interface=self.wlan, parms=parms).run_spam()
+            cinput("Press enter to go back to Freeway")
+            return self.act()
+
+        print(self.logo)    
+        cprint("1) Run from ssid list file")
+        cprint("2) Use random ssid list file")
+        cprint("3) Generate random ssid list")
+        cprint("4) Inject weird beacon frames")
+        eline()
+        cprint("r) Randomize mac address")
+        cprint("s) Static mac address")
+        cprint("t) Thread count")
+        cprint("v) Verbose (debug)")
+
+        uchoice = cinput("User choice (number,letter e.g. 1rtv)")
+        
+        BeaconSpam(interface=self.wlan, parms=uchoice).run_spam()
+        cinput("Press enter to go back to Freeway")
+        self.act()
+
+    def start_fuzzing(self, parms=None):
+        clean()
+
+        if parms is not None:
+            Fuzzer(interface=self.wlan, parms=parms).run_fuzzing()
+            cinput("Press enter to go back to Freeway")
+            return self.act()
+            
+        print(self.logo)
+        cprint("1) Replay captured packets")
+        cprint("2) Spam CTS frames")
+        cprint("3) Spam Auth frames (MAC)")
+        cprint("4) Spam Asso frames (MAC,SSID)")
+        cprint("5) Probe requests spam")
+        eline()
+        cprint("t) Specify thread count")
+        cprint("v) Enable debug")
+        cprint("m) Enter target MAC")
+        cprint("s) Specify ESSID")
+
+        uchoice = cinput("User choice (number, letter (1tvm))")
+
+        Fuzzer(interface=self.wlan, parms=uchoice).run_fuzzing()
+        
+        cinput("Press enter to go back to Freeway")
+        self.act()
+
+    def start_audit(self, parms=None):
+        clean()
+
+        if parms is not None:
+            parms_map = parms.split(",")
+            target = parms_map[0].strip() if len(parms_map) > 0 and parms_map[0] else wprint("Argument with index {} is missing".format(0))
+            mode = parms_map[1].strip() if len(parms_map) > 1 and parms_map[1] else wprint("Argument with index {} is missing".format(1))
+            if len(parms_map) < 2:
+                return
+            is_mac = len(target) == 17 and all(c in "0123456789ABCDEFabcdef:" for c in target)
+            Audit(interface=self.wlan, mac=target if is_mac else None, ssid=target if not is_mac else None, script_dir=self.script_dir, debug=mode in ["2", "2"]).run_audit()
+            cinput("Press enter to go back to Freeway")
+            return self.act()
+
+        print(self.logo)
+        example_mac = "ff:ff:ff:ff:ff:ff"
+        mac_ssid = cinput("Enter AP's MAC or ESSID")
+        mac,ssid = None, None
+        if len(mac_ssid) == len(example_mac) and ":" in mac_ssid:
+            mac = mac_ssid
+        else:
+            ssid = mac_ssid
+        cprint("1) Curses View (Recommended)", cc.GREEN)
+        cprint("2) Debug mode (Developers)", cc.BLUE)
+        eline()
+        mode = cinput("Number of the chosen option")
+
+        Audit(interface=self.wlan, mac=mac, ssid=ssid, debug=True if mode in ["2", 2] else False).run_audit()
+        cinput("Press enter to go back to Freeway")
+        self.act()
+
+    def start_hopper(self, parms=None):
+        clean()
+        if parms is not None:
+            parms_map = parms.split(",")
+            delay = parms_map[0].strip() if len(parms_map) > 0 else wprint("Argument with index {} is missing".format(0))
+            ran = parms_map[1].strip() if len(parms_map) > 1 else wprint("Argument with index {} is missing".format(1))
+            if len(parms_map) < 2:
+                return
+            channel_hopper(self.wlan, int(delay), ran)
+            cinput("Press enter to go back to Freeway")
+            return self.act()
+
+        print(self.logo)
+        cprint("d) Change delay (default:1)", cc.GREEN)
+        cprint("r) Change range (default:1-11)", cc.BLUE)
+        eline()
+        mode = cinput("Enter options separated by comma")
+        delay, ran = None, None
+        if "d" in mode:
+            delay = cinput("Enter delay time")
+        if "r" in mode:
+            ran = cinput("Enter range (e.g. 1,6,11 or 1-11)")
+
+        channel_hopper(self.wlan, delay or 1, ran or "1-11")
+        cinput("Press enter to go back to Freeway")
+        self.act()
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Freeway for Network Hacking")
+    parser.add_argument("-i", "--inf", type=str, required=False, help="Specify the WLAN interface (e.g. wlan0,wlan1)")
+    parser.add_argument("-a", "--action", type=str, required=False, help="Action number or alias (e.g. 1 or monitor)")
+    parser.add_argument("-p", "--parms", type=str, required=False, help="Parameter identifiers (e.g. 1,2,a or 3rtv depends on action)")
+    
+    args = parser.parse_args()
+    return parser, args
+
+def main():
+    try:
+        parser, args = parse_arguments()
+        interface = args.inf if args.inf else []
+        action = args.action if args.action else None
+        parms = args.parms if args.parms else None
+
+        freeway = Freewayer(action, parms, interface.split(",") if interface != [] else [])
+        
+    except KeyboardInterrupt:
+        eline()
+        iprint("Exiting...")
+        sys.exit(0)
+
+if __name__ == "__main__":
+    main()
