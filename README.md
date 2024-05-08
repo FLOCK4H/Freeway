@@ -23,22 +23,45 @@ Python's scapy based tool for WiFi penetration loaded with rich number of featur
 
 <h6>Description of the features can be found below</h6>
 
-<strong><h2>Setup<sup>3</sup></h2></strong>
+<strong><h2>Preparation<sup>3</sup></h2></strong>
+It's **necessary** to have:
+  - Network Adapter supporting monitor mode and frame injection
+  - Operating system running Linux distribution
+  - Python 3+ installed
+
+<h5>Optionally Scapy and Rich packages for Python if not installing via pip (see section 4)</h5>
+
+<strong><h2>Setup<sup>4</sup></h2></strong>
 
 Clone the repository first:
 
-&nbsp;&nbsp;&nbsp;&nbsp;`git clone https://github.com/FLOCK4H/Freeway`
+    git clone https://github.com/FLOCK4H/Freeway
 
 Navigate to the cloned repository:
 
-&nbsp;&nbsp;&nbsp;&nbsp;`cd Freeway`
+    cd Freeway
 
-<strong>A:</strong> To call directly from the command line
-  - `sudo pip install .`
+<strong>A:</strong> Install dependencies and Freeway
 <h6>This will allow to launch the tool from anywhere</h6>
 
+    sudo pip install .
+
 <strong>B:</strong> Run without installation using Python
-  - `sudo python Freeway`
+<h6>Must be called from /Freeway directory</h6>
+
+    sudo python Freeway
+
+<strong><h2>Usage<sup>5</sup></h2></strong>
+
+This tool comes with it's own user-friendly **command line interface (CLI)**, and can be run without specifying any additional parameters:
+
+`sudo Freeway`
+
+
+
+
+
+
 
 
 
