@@ -9,11 +9,21 @@
 
 
 <h2><strong>Overview<sup>1</sup></strong></h2>
-Python's scapy based tool for WiFi penetration loaded with rich number of features that aims to help ethical hackers and pentesters in developing their skills and knowledge in securing home or enterprise networks.
+Python's scapy based tool for WiFi penetration loaded with rich number of features that aims to help ethical hackers and pentesters in developing their skills and knowledge in auditing and securing home or enterprise networks.
 
-<strong><h2>Featuring</h2>
+<strong><h2>Featuring<sup>2</sup></h2>
 
-- Packet monitor
-- 
+- IEEE 802.11 Packet monitor
+- Deauthentication attack
+- Beacon Flood
+- Packet Fuzzer
+- Network Audit
+- Channel Hopper
+</strong>
+
+<h6>Description of the features can be found below</h6>
+
+
+
 
 
