@@ -11,7 +11,7 @@
 <h2><strong>Overview<sup>1</sup></strong></h2>
 Python's scapy based tool for WiFi penetration loaded with rich number of features that aims to help ethical hackers and pentesters in developing their skills and knowledge in auditing and securing home or enterprise networks.
 
-<strong><h2>Featuring<sup>2</sup></h2>
+<strong><h2>Features<sup>2</sup></h2>
 
 - IEEE 802.11 Packet monitor
 - Deauthentication attack
@@ -22,6 +22,16 @@ Python's scapy based tool for WiFi penetration loaded with rich number of featur
 </strong>
 
 <h6>Description of the features can be found below</h6>
+
+<strong><h2>Setup</h2></strong>
+Clone the repository first:
+`git clone https://github.com/FLOCK4H/Freeway`
+
+There are two ways of setting the Freeway up:
+  1. To use directly from the command line
+     - 
+  2. Run without installation using Python:
+
 
 
 
