@@ -88,6 +88,8 @@ def get_terminal_size():
     columns, rows = shutil.get_terminal_size()
     return columns, rows
 
+script_dir = "/usr/local/share/3way"
+
 class Welcome:
     def __init__(self, action):
         self.fsecurity = False
@@ -105,13 +107,13 @@ class Welcome:
 
         self.short_logo = f"""{cc.BRIGHT}{cc.CYAN}
                                                    
-\t██████╗ ██╗    ██╗ █████╗ ██╗   ██╗
-\t╚════██╗██║    ██║██╔══██╗╚██╗ ██╔╝
-\t █████╔╝██║ █╗ ██║███████║ ╚████╔╝ 
-\t ╚═══██╗██║███╗██║██╔══██║  ╚██╔╝  
-\t██████╔╝╚███╔███╔╝██║  ██║   ██║   
-\t╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝
-\t\t{cc.MAGENTA}by FLOCK4H
+██████╗ ██╗    ██╗ █████╗ ██╗   ██╗
+╚════██╗██║    ██║██╔══██╗╚██╗ ██╔╝
+ █████╔╝██║ █╗ ██║███████║ ╚████╔╝ 
+ ╚═══██╗██║███╗██║██╔══██║  ╚██╔╝  
+██████╔╝╚███╔███╔╝██║  ██║   ██║   
+╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝
+\t{cc.MAGENTA}by FLOCK4H
         """
         self.columns, _ = get_terminal_size()
         if action is None:
@@ -121,13 +123,13 @@ class Welcome:
 
     def intro(self):
         clean()
-        if self.columns < 70:
+        if self.columns < 80:
             print(self.short_logo)
         else:
             print(self.norm_logo)
     
     def check_ask_eula(self):
-        if os.path.exists("EULA.txt"):
+        if os.path.exists(os.path.join(script_dir, "EULA.txt")):
             self.fsecurity = True
             return
         try:
@@ -146,7 +148,7 @@ class Welcome:
             self.eula = cinput("Do you accept the EULA? (yes/no)", cc.LIGHT_GREEN)
             if self.eula == "yes":
                 cprint("Saving the EULA..")
-                with open("EULA.txt", "w") as f:
+                with open(os.path.join(script_dir, "EULA.txt"), "w") as f:
                     f.write("User agreed to the EULA.")
                     self.fsecurity = True
                 time.sleep(1)
@@ -166,12 +168,12 @@ def eline():
 
 class Freewayer:
     def __init__(self, action, parms, interface=[]):
-        self.script_dir = "/usr/local/share/3way"
-        os.makedirs("/usr/local/share/3way", exist_ok=True)
+        self.script_dir = script_dir
+        os.makedirs(self.script_dir, exist_ok=True)
         self.interface = interface
         self.action = action
         self.parms = parms
-        self.welcome = Welcome(action)
+        self.welcome = Welcome(self.action)
         self.short_logo = self.welcome.short_logo
         self.norm_logo = self.welcome.norm_logo
         self.init_app()
@@ -207,7 +209,7 @@ class Freewayer:
                 "audit": self.start_audit,
                 "hopper": self.start_hopper
             }
-            self.small_term = self.welcome.columns < 70
+            self.small_term = self.welcome.columns < 80
             self.logo = f"""{self.short_logo if self.small_term else self.norm_logo}"""
             self.underline = lambda x: "─" * x
             self.interfaces = self.interface if self.interface != [] else get_interface()
