@@ -1,6 +1,9 @@
 """
     This file installs Freeway - making it available directly from the command line:
     'sudo Freeway'
+
+    To uninstall Freeway run:
+    'sudo pip uninstall 3way'
 """
 
 from setuptools import setup, find_packages
@@ -20,7 +23,7 @@ class PostInstallCommand(install):
         if not os.path.exists(destination):
             os.makedirs(destination)
         if not os.path.exists(os.path.join(destination, "ssid_list.txt")):
-            shutil.move(source, os.path.join(destination, 'ssid_list.txt'))
+            shutil.copy(source, os.path.join(destination, 'ssid_list.txt'))
 
 setup(
     name='3way',
