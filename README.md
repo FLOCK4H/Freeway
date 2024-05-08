@@ -8,7 +8,12 @@
 > Before using the software user must agree to the EULA when prompted
 
 
-<h2><strong>Overview</strong></h2>
+<h2><strong>Overview<sup>1</sup></strong></h2>
 Python's scapy based tool for WiFi penetration loaded with rich number of features that aims to help ethical hackers and pentesters in developing their skills and knowledge in securing home or enterprise networks.
+
+<strong><h2>Featuring</h2>
+
+- Packet monitor
+- 
 
 
