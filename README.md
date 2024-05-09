@@ -54,7 +54,7 @@ Navigate to the cloned repository:
 
 <strong><h2>Usage<sup>5</sup></h2></strong>
 
-This tool comes with it's own **command line interface (CLI)**, and can be run without specifying any additional parameters..
+This tool comes with it's own **command line interface (CLI)**, and can be run without specifying any additional arguments..
 
 <details>
 <summary>Click to expand</summary>
@@ -66,7 +66,7 @@ Follow the prompt to select the network adapter (see section 3):
 
 ![image](https://github.com/FLOCK4H/Freeway/assets/161654571/653c9304-3256-4444-8f3f-0677134c8af8)
 
-Select the feature and arguments:
+Select the feature and parameter(s):
 
 ![image](https://github.com/FLOCK4H/Freeway/assets/161654571/2444922e-6f1b-4958-99ea-df7463b912cb)
 ![image](https://github.com/FLOCK4H/Freeway/assets/161654571/757b5d77-be12-4dda-a957-3c305789bba7)
@@ -77,8 +77,39 @@ Select the feature and arguments:
 
 <details>
 <summary>Click to expand</summary>
+<br />
+
+    sudo Freeway -i wlan2 -a monitor -p 1,2,a
+
+<h6>'-p' is not required with '-a' e.g. this will prompt to specify parameters in the CLI:</h6>
+
+    sudo Freeway -i wlan2 -a deauth
+
+**All arguments, actions and parameters:**
+
+<div>
   
-`sudo Freeway -i wlan2 `
+<pre>
+  Arguments:
+  -h, --help     Show the help message <br />
+  -i, --inf      Specify the WLAN interface (e.g. wlan0,wlan1) <br />
+  -a, --action   Action number or alias (e.g. 1 or monitor) <br />
+  -p, --parms    Parameter identifiers (e.g. 1,2,a or 3rtv depends on action) <br />
+
+  Actions:
+  1 or monitor,
+  2 or deauth,
+  3 or beacon_spam,
+  4 or fuzzer,
+  5 or audit,
+  6 or hopper
+
+  Parameters must be provided in the same format as in the CLI, specific for every action.
+  To list all parameters for given action just provide -a argument without -p.
+  
+</pre>
+
+</div>
 
 </details>
 
