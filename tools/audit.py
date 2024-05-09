@@ -1,5 +1,7 @@
 # audit.py
 from scapy.all import *
+from scapy.layers.dot11 import Dot11Beacon, Dot11, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, RadioTap, Dot11AssoResp, Dot11Ack, Dot11QoS 
+from scapy.layers.eap import EAPOL
 import os
 import time
 import curses
