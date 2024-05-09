@@ -113,5 +113,30 @@ Select the feature and parameter(s):
 <h2><strong>6. Details</strong></h2>
 
 - **Packet Monitor** - Sniffs the WiFi packets in the air, analyze them and return the result onto the python's curses display. Catches SSIDs, MACs, Clients, Uptime, Channel, Signal (dBm), Encryption and resolves manufacturer. Catches PMKIDs in hashcat crackable format, and 4-way Handshakes, as well as other EAPOL packets. Logs the captured session to the **/caps** folder or every captured packet if _Save output_ was selected.
-- **Deauthentication Attack (Deauthing)** - Disconnects a device from the network by sending a packet containing AP<sup>1<sup> address, device address (or broadcast for _Mass Deauthing_) and the deauthentication frame with a reason of kicking the client(s). In case where a device address is a broadcast address, the AP will in most cases disconnect all clients at once. Freeway creates separate thread for every AP or client found in order to make deauthing maximally efficient.
-- **Beacon Flood Attack** - Floods the nearby WiFi scanners with fake or malformed APs 
+- **Deauthentication Attack (Deauthing)** - Disconnects a device from the network by sending a packet containing AP<sup>1</sup> address, device address (or broadcast for _Mass Deauthing_) and the deauthentication frame with a reason of kicking the client(s). In case where a device address is a broadcast address, the AP will in most cases disconnect all clients at once. Freeway creates separate thread for every AP or client found in order to make deauthing maximally efficient.
+- **Beacon Flood Attack** - Floods the nearby WiFi scanners with fake or malformed APs. It can cause the devices looking for WiFi to behave abnormally (e.g. crash, freeze, drain the battery or run slower) and disrupt the nearby network traffic. User is able to specify his own ssid list, use the default one and generate correct (but random) or malformed beacon packets.
+- **Packet Fuzzer** - Fuzzing is a technique of network vulnerability assesment by sending a wide array of malformed or semi-random data to network interfaces and observing the responses. Freeway covers: **Replay captured packets (RX&TX<sup>2</sup>)**, **Spam CTS/RTS or Probe requests** and **Flood an AP with Authentication or Association Frames**. Devices that will capture fuzzed packets will behave differently depending on vulnerability level of receiver (!USE WITH CAUTION!).
+- **Network Audit** - Gathers all possible information about specific network and returns them onto the curses view. Tracks all clients signal and last activity, as well as resolve the manufacturer.
+- **Channel Hopper** - Changes the current channel of the network adapter. Helpful in making specific attacks more successful.
+
+<sup>1<sup>**Access Points**</sup></sup>
+
+<sup>2<sup>**Transceive and receive at the same time**</sup></sup>
+
+<h2><strong>8. Uninstall</strong></h2>
+
+In case where Freeway doesn't meet the expectations and was installed via pip, the removal process is as easy:
+
+    sudo pip uninstall 3way
+
+The rename to 3way is done on purpose to 'reserve' the name for the future official pip release as Freeway is taken.
+
+<h2><strong>9. Legal Note</strong></h2>
+
+> [!IMPORTANT]
+> Any malicious use of such features should be considered a crime, <br />
+> always assert permission to perform the penetration testing.
+
+<h2><strong>10. License</strong></h2>
+
+The distribution of Freeway is regulated by the standard MIT license, users can feel free to use, share and contribute to the repository or report bugs.
