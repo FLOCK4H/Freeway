@@ -272,7 +272,7 @@ class Freewayer:
         import curses
         clean()
         if parms is not None:
-            curses.wrapper(Monitor(self.wlan, parms=parms, filters=parms).start_sniffing)
+            curses.wrapper(Monitor(self.wlan, script_dir=self.script_dir, parms=parms, filters=parms).start_sniffing)
             cinput("Press enter to go back to Freeway")
             return self.act()
 
@@ -420,7 +420,7 @@ class Freewayer:
         eline()
         mode = cinput("Number of the chosen option")
 
-        Audit(interface=self.wlan, mac=mac, ssid=ssid, debug=True if mode in ["2", 2] else False).run_audit()
+        Audit(interface=self.wlan, script_dir=self.script_dir, mac=mac, ssid=ssid, debug=True if mode in ["2", 2] else False).run_audit()
         cinput("Press enter to go back to Freeway")
         self.act()
 
