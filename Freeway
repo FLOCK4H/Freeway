@@ -452,7 +452,7 @@ class Freewayer:
         self.act()
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Freeway for Network Hacking")
+    parser = argparse.ArgumentParser(description="Freeway for Network Pentesting")
     parser.add_argument("-i", "--inf", type=str, required=False, help="Specify the WLAN interface (e.g. wlan0,wlan1)")
     parser.add_argument("-a", "--action", type=str, required=False, help="Action number or alias (e.g. 1 or monitor)")
     parser.add_argument("-p", "--parms", type=str, required=False, help="Parameter identifiers (e.g. 1,2,a or 3rtv depends on action)")
