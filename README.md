@@ -29,7 +29,7 @@ It's **necessary** to have:
   - Operating system running Linux distribution
   - Python 3+ installed
 
-<h5>Optionally Scapy and Rich packages for Python if not installing via pip (see section 4)</h5>
+<h5>Optionally install Scapy and Rich packages for Python if not installing via pip (see section 4)</h5>
 
 <strong><h2>Setup<sup>4</sup></h2></strong>
 
@@ -49,13 +49,31 @@ Navigate to the cloned repository:
 <strong>B:</strong> Run without installation using Python
 <h6>Must be called from /Freeway directory</h6>
 
+    sudo pip install scapy rich
     sudo python Freeway
 
 <strong><h2>Usage<sup>5</sup></h2></strong>
 
-This tool comes with it's own user-friendly **command line interface (CLI)**, and can be run without specifying any additional parameters:
+This tool comes with it's own user-friendly **command line interface (CLI)**, and can be run without specifying any additional parameters..
 
+<details>
+<summary>Click to expand</summary>
+  
+    sudo Freeway
+
+</details>
+
+<hr />
+
+..and can also be run with them:
+
+<details>
+<summary>Click to expand</summary>
+  
 `sudo Freeway`
+
+</details>
+
 
 
 
