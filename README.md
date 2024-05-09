@@ -54,23 +54,31 @@ Navigate to the cloned repository:
 
 <strong><h2>Usage<sup>5</sup></h2></strong>
 
-This tool comes with it's own user-friendly **command line interface (CLI)**, and can be run without specifying any additional parameters..
+This tool comes with it's own **command line interface (CLI)**, and can be run without specifying any additional parameters..
 
 <details>
 <summary>Click to expand</summary>
-  
+<br />
+
     sudo Freeway
 
-</details>
+Follow the prompt to select the network adapter (see section 3):
 
-<hr />
+![image](https://github.com/FLOCK4H/Freeway/assets/161654571/653c9304-3256-4444-8f3f-0677134c8af8)
+
+Select the feature and arguments:
+
+![image](https://github.com/FLOCK4H/Freeway/assets/161654571/2444922e-6f1b-4958-99ea-df7463b912cb)
+![image](https://github.com/FLOCK4H/Freeway/assets/161654571/757b5d77-be12-4dda-a957-3c305789bba7)
+
+</details>
 
 ..and can also be run with them:
 
 <details>
 <summary>Click to expand</summary>
   
-`sudo Freeway`
+`sudo Freeway -i wlan2 `
 
 </details>
 
