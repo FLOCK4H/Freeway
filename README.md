@@ -73,6 +73,7 @@ Select the feature and parameter(s):
 ![image](https://github.com/FLOCK4H/Freeway/assets/161654571/757b5d77-be12-4dda-a957-3c305789bba7)
 
 </details>
+<br />
 
 ...and it can also be run with them:
 
