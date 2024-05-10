@@ -5,7 +5,7 @@
 </div>
 
 > [!NOTE]
-> Before using the software, the user must agree to the EULA when prompted.
+> Before using the software, the user must agree to the EULA when prompted
 
 <h2><strong>1. Overview</strong></h2>
 Freeway is a Python scapy-based tool for WiFi penetration that aim to help ethical hackers and pentesters develop their skills and knowledge in auditing and securing home or enterprise networks.
@@ -19,7 +19,7 @@ Freeway is a Python scapy-based tool for WiFi penetration that aim to help ethic
 - Network Audit
 - Channel Hopper
 
-<h6>Description of the features can be found in Section 6.</h6>
+<h6>Description of the features can be found in Section 6</h6>
 
 <h2><strong>3. Preparation</strong></h2>
 
@@ -28,7 +28,7 @@ It is **necessary** to have:
 - An operating system running a Linux distribution.
 - Python 3+ installed.
 
-<h6>Optionally, install Scapy and Rich packages for Python if not installing via pip (see Section 4).</h6>
+<h6>Optionally, install Scapy and Rich packages for Python if not installing via pip (see Section 4)</h6>
 
 <h2><strong>4. Setup</strong></h2>
 
@@ -42,13 +42,13 @@ Navigate to the cloned repository:
 
 <strong>A:</strong> Install dependencies and Freeway.
 
-<h6>This will allow launching the tool from anywhere.</h6>
+<h6>This will allow launching the tool from anywhere</h6>
 
     sudo pip install .
 
 <strong>B:</strong> Run without installation using Python.
 
-<h6>Must be called from the /Freeway directory.</h6>
+<h6>Must be called from the /Freeway directory</h6>
 
     sudo pip install scapy rich
     sudo python Freeway
@@ -58,7 +58,7 @@ Navigate to the cloned repository:
 This tool comes with its own **command line interface (CLI)** and can be run without specifying any additional arguments.
 
 <details>
-<summary>Click to expand</summary>
+<summary>Click to expand the CLI usage</summary>
 <br />
 
     sudo Freeway
@@ -77,7 +77,7 @@ Select the feature and parameter(s):
 ...and it can also be run with them:
 
 <details>
-<summary>Click to expand</summary>
+<summary>Click to expand the arguments usage</summary>
 <br />
 
     sudo Freeway -i wlan2 -a monitor -p 1,2,a
