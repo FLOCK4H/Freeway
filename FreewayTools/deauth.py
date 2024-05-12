@@ -1,6 +1,6 @@
 # deauth.py
 from scapy.all import *
-from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, Dot11, Dot11Deauth, RadioTap
+from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, Dot11, Dot11Deauth, RadioTap, Dot11AssoResp, Dot11Disas, Dot11QoS
 from scapy.layers.eap import EAPOL
 import threading
 import os
@@ -10,8 +10,8 @@ from rich.table import Table
 from rich.live import Live
 
 try:
-    from tools.colors import cprint, iprint, wprint, cinput, ColorCodes
-    from tools.monitor import get_signal_strength
+    from FreewayTools.colors import cprint, iprint, wprint, cinput, ColorCodes
+    from FreewayTools.monitor import get_signal_strength
 
 except ModuleNotFoundError:
     from colors import cprint, iprint, wprint, cinput, ColorCodes

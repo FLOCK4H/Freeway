@@ -1,5 +1,6 @@
 # beacon_spam.py
 from scapy.all import *
+from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, Dot11, Dot11Deauth, RadioTap, Dot11AssoResp, Dot11Disas, Dot11QoS
 import os
 import time
 from rich.console import Console
@@ -9,7 +10,7 @@ from random import choice
 import threading
 
 try:
-    from tools.colors import cprint, iprint, wprint, cinput, ColorCodes
+    from FreewayTools.colors import cprint, iprint, wprint, cinput, ColorCodes
 
 except ModuleNotFoundError:
     from colors import cprint, iprint, wprint, cinput, ColorCodes

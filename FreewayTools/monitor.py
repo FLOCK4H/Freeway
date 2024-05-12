@@ -7,12 +7,12 @@ import curses
 import time
 from datetime import datetime, timedelta
 from scapy.all import *
-from scapy.layers.dot11 import Dot11Beacon, Dot11, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, RadioTap
+from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, Dot11, Dot11Deauth, RadioTap, Dot11AssoResp, Dot11Disas, Dot11QoS
 from scapy.layers.eap import EAPOL
 import logging
 
 try:
-    from tools.checkmac import check_manufacturer
+    from FreewayTools.checkmac import check_manufacturer
 except ModuleNotFoundError:
     from checkmac import check_manufacturer
 

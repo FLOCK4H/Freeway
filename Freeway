@@ -13,13 +13,13 @@ import string
 import argparse
 import shutil
 
-from tools.colors import cprint, iprint, wprint, cinput, ColorCodes
-from tools.monitor import Monitor
-from tools.deauth import Deauth
-from tools.beacon_spam import BeaconSpam
-from tools.fuzzer import Fuzzer
-from tools.audit import Audit
-from tools.hopper import channel_hopper
+from FreewayTools.colors import cprint, iprint, wprint, cinput, ColorCodes
+from FreewayTools.monitor import Monitor
+from FreewayTools.deauth import Deauth
+from FreewayTools.beacon_spam import BeaconSpam
+from FreewayTools.fuzzer import Fuzzer
+from FreewayTools.audit import Audit
+from FreewayTools.hopper import channel_hopper
 
 cc = ColorCodes()
 

@@ -18,7 +18,7 @@ class PostInstallCommand(install):
         main_dir = '/usr/local/share/3way'
         if not os.path.exists(main_dir):
             os.makedirs(main_dir)
-        source = 'tools/lists/ssid_list.txt'
+        source = 'FreewayTools/lists/ssid_list.txt'
         destination = os.path.join(main_dir, "lists")
         if not os.path.exists(destination):
             os.makedirs(destination)

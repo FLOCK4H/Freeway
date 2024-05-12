@@ -13,7 +13,7 @@ import sys
 import threading
 
 try:
-    from tools.colors import cprint, oneline, iprint, wprint, cinput, ColorCodes
+    from FreewayTools.colors import cprint, oneline, iprint, wprint, cinput, ColorCodes
 
 except ModuleNotFoundError:
     from colors import cprint, oneline, iprint, wprint, cinput, ColorCodes
