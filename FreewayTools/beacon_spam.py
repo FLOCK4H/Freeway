@@ -85,10 +85,10 @@ class BeaconSpam:
         except Exception as e:
             wprint(f"In load_ssid_list in BeaconSpam class: {str(e)}")            
 
-    def init_monitor_mode(self):
+    def init_monitor_mode(self, mode="monitor"):
         try:
             for interface in self.interface:
-                os.system(f'sudo iwconfig {interface} mode monitor')
+                os.system(f'sudo iwconfig {interface} mode {mode}')
         except Exception as e:
             wprint(f"Error while putting interface in monitor mode: {e}")
 
@@ -284,3 +284,5 @@ class BeaconSpam:
         except KeyboardInterrupt:
             thread_event.set()
             time.sleep(1)
+        finally:
+            self.init_monitor_mode(mode="managed")

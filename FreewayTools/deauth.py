@@ -345,10 +345,10 @@ class Deauth:
             if self.debug:
                 self.console.print(f"Couldn't read whitelist.txt, {str(e)}")
 
-    def init_monitor_mode(self):
+    def init_monitor_mode(self, mode="monitor"):
         try:
             for interface in self.interface:
-                os.system(f'sudo iwconfig {interface} mode monitor')
+                os.system(f'sudo iwconfig {interface} mode {mode}')
         except Exception as e:
             wprint(f"Error while putting interface in monitor mode: {e}")
 
@@ -398,6 +398,8 @@ class Deauth:
         except KeyboardInterrupt:
             stop_event.set()
             time.sleep(1)
+        finally:
+            self.init_monitor_mode(mode="managed")
 
 def generate_table(pairs):
     table = Table()

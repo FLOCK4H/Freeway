@@ -301,6 +301,10 @@ class Freewayer:
         time.sleep(2)
         
         curses.wrapper(Monitor(self.wlan, self.script_dir, parms=parms, filters=ufilter).start_sniffing)
+        iprint(f"Disabling monitor mode on {self.wlan}")
+        for wlan in self.wlan:
+            os.system(f'sudo iwconfig {wlan} mode managed')
+
         cinput("Press enter to go back to Freeway")
         self.act()      
 
