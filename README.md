@@ -1,14 +1,15 @@
 <div align="center">
   <img src="https://github.com/FLOCK4H/Freeway/assets/161654571/85eb939d-0154-4767-8aab-c3a5e29b1d6f" alt="Freeway logo" />
 
-  <h6>Freeway for Network Penetration</h6>
+  $${\color{red}Freeway\ for\ Network\ Pentesting}$$
 </div>
 
 > [!NOTE]
 > Before using the software, the user must agree to the EULA when prompted
 
 <h2><strong>1. Overview</strong></h2>
-Freeway is a Python scapy-based tool for WiFi penetration that aim to help ethical hackers and pentesters develop their skills and knowledge in auditing and securing home or enterprise networks.
+
+**Freeway** is a Python scapy-based tool for WiFi penetration that aim to help ethical hackers and pentesters develop their skills and knowledge in auditing and securing home or enterprise networks.
 
 <h2><strong>2. Features</strong></h2>
 
@@ -19,7 +20,7 @@ Freeway is a Python scapy-based tool for WiFi penetration that aim to help ethic
 - Network Audit
 - Channel Hopper
 
-<h6>Description of the features can be found in Section 6</h6>
+<sub>Description of the features can be found in Section 6</sub>
 
 <h2><strong>3. Preparation</strong></h2>
 
@@ -28,7 +29,7 @@ It is **necessary** to have:
 - An operating system running a Linux distribution.
 - Python 3+ installed.
 
-<h6>Optionally, install Scapy and Rich packages for Python if not installing via pip (see Section 4)</h6>
+<sub>Optionally, install Scapy and Rich packages for Python if not installing via pip (see Section 4)</sub>
 
 <h2><strong>4. Setup</strong></h2>
 
@@ -42,13 +43,13 @@ Navigate to the cloned repository:
 
 <strong>A:</strong> Install dependencies and Freeway.
 
-<h6>This will allow launching the tool from anywhere</h6>
+<sub>This will allow to launch the tool from anywhere</sub>
 
     sudo pip install .
 
 <strong>B:</strong> Run without installation using Python.
 
-<h6>Must be called from the /Freeway directory</h6>
+<sub>Must be called from the /Freeway directory</sub>
 
     sudo pip install scapy rich
     sudo python Freeway
@@ -58,7 +59,7 @@ Navigate to the cloned repository:
 This tool comes with its own **command line interface (CLI)** and can be run without specifying any additional arguments.
 
 <details>
-<summary>Click to expand the CLI usage</summary>
+<summary><strong>Click to expand the CLI usage</strong></summary>
 <br />
 
     sudo Freeway
@@ -75,15 +76,15 @@ Select the feature and parameter(s):
 </details>
 <br />
 
-...and it can also be run with them:
+And with the **additional arguments**, to skip the CLI partially or completely.
 
 <details>
-<summary>Click to expand the arguments usage</summary>
+<summary><strong>Click to expand the arguments usage</strong></summary>
 <br />
 
     sudo Freeway -i wlan2 -a monitor -p 1,2,a
 
-<h6>'-p' is not required with '-a', e.g., this will prompt for parameters to specify in the CLI:</h6>
+<sub>'-p' is not required with '-a', e.g., this will prompt for parameters to specify in the CLI:</sub>
 
     sudo Freeway -i wlan2 -a deauth
 
@@ -130,7 +131,7 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
     sudo pip uninstall 3way
 
-The rename to 3way is done on purpose to 'reserve' the name for the future official pip release as Freeway is taken.
+<sub>The rename to 3way is done on purpose to 'reserve' the name for the future official pip release as Freeway is taken.</sub>
 
 <h2><strong>9. Legal Note</strong></h2>
 

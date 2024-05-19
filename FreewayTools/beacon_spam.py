@@ -212,23 +212,30 @@ class BeaconSpam:
             except OSError:
                 wprint("Network is down, putting this bastard back up..")
 
-
     def craft_beacon_packet(self, ssid, src_mac="12:34:56:78:9a:bc", dst_mac="ff:ff:ff:ff:ff:ff", bssid="12:34:56:78:9a:bc"):
-
         # Radiotap, Dot11, beacon, and SSID elements
         radiotap = RadioTap()
         dot11 = Dot11(type=0, subtype=8, addr1=dst_mac, addr2=src_mac, addr3=bssid)
-        beacon = Dot11Beacon(cap='short-slot+ESS+privacy')
-        essid = Dot11Elt(ID='SSID', info=ssid)
-        
-        # Supported rates
+        beacon = Dot11Beacon(cap='short-slot+ESS+privacy', beacon_interval=0x64)
+        essid = Dot11Elt(ID='SSID', info=ssid.encode('utf-8'))  # Ensure SSID is properly encoded
+
+        # Supported rates (standard rates + some higher rates for compatibility)
         rates = Dot11Elt(ID='Rates', info=b'\x82\x84\x8b\x96\x0c\x12\x18\x24')
-        dsset = Dot11Elt(ID='DSset', info=chr(3))  
+        esrates = Dot11Elt(ID='ESRates', info=b'\x30\x48\x60\x6c')  # Extended Supported Rates
+        
+        # Channel set to a more common one (e.g., channel 1)
+        dsset = Dot11Elt(ID='DSset', info=b'\x01')  # Common channel
 
+        # Traffic Indication Map (TIM)
         tim = Dot11Elt(ID='TIM', info=b'\x00\x01\x00\x00')
-
-        country = Dot11Elt(ID='Country', info=b'US \x00\x01\x0b\x1e')
-
+        
+        # ERP Information (Optional, but can help with compatibility)
+        erp = Dot11Elt(ID='ERPinfo', info=b'\x00')
+        
+        # Country information set to PL (Poland)
+        country = Dot11Elt(ID='Country', info=b'PL \x00\x01\x0b\x1e')
+        
+        # RSN Information
         rsn_info = Dot11Elt(ID='RSNinfo', info=(
             b'\x01\x00'              # RSN Version 1
             b'\x00\x0f\xac\x04'      # Group Cipher Suite: AES (CCMP)
@@ -239,7 +246,8 @@ class BeaconSpam:
             b'\xac\x00'              # RSN Capabilities (MFP capable)
         ))
 
-        packet = radiotap / dot11 / beacon / essid / rates / dsset / tim / country / rsn_info
+        # Assembling the packet
+        packet = radiotap / dot11 / beacon / essid / rates / esrates / dsset / tim / erp / country / rsn_info
 
         return packet
 

@@ -364,9 +364,9 @@ class Deauth:
                 self.run_deauthy()
 
     def display_live_table(self):
-        with Live(generate_table(self.processor.pairs), refresh_per_second=10, console=self.console) as live:  # Refresh 10 times per second
+        with Live(generate_table(self.processor.pairs.copy()), refresh_per_second=10, console=self.console) as live:  # Refresh 10 times per second
             while not stop_event.is_set():
-                live.update(generate_table(self.processor.pairs), refresh=True)
+                live.update(generate_table(self.processor.pairs.copy()), refresh=True)
                 time.sleep(1)
 
     def run_deauthy(self):
