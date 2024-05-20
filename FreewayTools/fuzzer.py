@@ -116,9 +116,17 @@ class Fuzzer:
         self.packet_constructor = PacketConstructor(parms, self.collector, self.ssid)
         self.threads = int(cinput("Enter thread count")) if "t" in self.parms else 1
 
+    def init_monitor_mode(self, mode="monitor"):
+        try:
+            for interface in self.interface:
+                os.system(f'sudo iwconfig {interface} mode {mode}')
+        except Exception as e:
+            wprint(f"Error while putting interface in monitor mode: {e}")
+
     def run_fuzzing(self):
         try:
             thread_event.clear()
+            self.init_monitor_mode()
             if "1" in self.parms:
                 iprint("Starting the Packet Reply attack!")
                 threading.Thread(target=self.sniffer.run_sniff, daemon=True).start()
@@ -172,7 +180,8 @@ class Fuzzer:
                     
         except KeyboardInterrupt:
             thread_event.set()
-            time.sleep(1)
+            time.sleep(1)  
+            self.init_monitor_mode(mode="managed")          
 
     def probe_spam(self, interface):
         while not thread_event.is_set():
@@ -215,6 +224,7 @@ class Fuzzer:
 
     def packet_reply(self, interface):
         while not thread_event.is_set():
+            # self.console.print(f"Collector is empty!", style="yellow")
             if not self.collector.empty():
                 packet = self.collector.get()
                 safe_send(packet, iface=interface, count=1, verbose=False)
