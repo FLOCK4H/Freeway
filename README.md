@@ -137,7 +137,7 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 > 19.05
 > 1. Fixed rare RuntimeError in deauth.py caused by iterating on dynamicly changing size dictionary
-> 2. Further improvements of beacon packets in beacon_spam.py
+> 2. Further improvements of beacon packet formatting in beacon_spam.py
 
 <h2>Known Issues</h2>
 
