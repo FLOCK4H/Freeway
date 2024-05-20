@@ -134,7 +134,9 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 <sub>The rename to 3way is done on purpose to 'reserve' the name for the future official pip release as Freeway is taken.</sub>
 
 <h2>TODO</h2>
+
 ★ Version & update checker
+
 ★ Evil Twin attack
 
 <h2>Changelog</h2>
