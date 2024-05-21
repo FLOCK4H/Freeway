@@ -4,6 +4,13 @@
   $${\color{red}Freeway\ for\ Network\ Pentesting}$$
 </div>
 
+<strong>Read the article about Freeway, now on
+
+<div align="center">
+<a href="https://medium.com/@flytechoriginal/freeway-for-network-pentesting-e97e69e481fc">Medium</a>
+</div>
+<br />
+
 > [!NOTE]
 > Before using the software, the user must agree to the EULA when prompted
 
