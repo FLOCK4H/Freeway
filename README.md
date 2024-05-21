@@ -4,9 +4,10 @@
   $${\color{red}Freeway\ for\ Network\ Pentesting}$$
 </div>
 
-<strong>Read the article about Freeway, now on
-
 <div align="center">
+
+
+<strong>Read the article about Freeway, now on</strong>
 <a href="https://medium.com/@flytechoriginal/freeway-for-network-pentesting-e97e69e481fc">Medium</a>
 </div>
 <br />
