@@ -147,6 +147,8 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 ★ Evil Twin attack (ALMOST READY✅)
 
+★ PyPi Release
+
 <h2>Changelog</h2>
 
 > 19.05
