@@ -143,9 +143,9 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 <h2>TODO</h2>
 
-★ Version & update checker
+✅ Evil Twin attack
 
-★ Evil Twin attack (ALMOST READY✅)
+★ Version & update checker
 
 ★ PyPi Release
 
