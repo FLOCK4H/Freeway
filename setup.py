@@ -24,10 +24,16 @@ class PostInstallCommand(install):
             os.makedirs(destination)
         if not os.path.exists(os.path.join(destination, "ssid_list.txt")):
             shutil.copy(source, os.path.join(destination, 'ssid_list.txt'))
-
+        source = 'templates'
+        destination = os.path.join(main_dir, source)
+        if not os.path.exists(destination):
+            os.makedirs(destination)
+        for template in ["google", "Valentines", "mrhacker", "mcd"]:
+            if not os.path.exists(os.path.join(destination, template)):
+                shutil.copytree(f"{source}/{template}", f"{destination}/{template}")
 setup(
     name='3way',
-    version='1.0.4',
+    version='1.1.2',
     author='FLOCK4H',
     url='github.com/FLOCK4H/Freeway',
     description='Freeway for network pentesting',

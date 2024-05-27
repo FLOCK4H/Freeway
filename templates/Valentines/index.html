@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            background: white;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .main-app {
+            position: relative;
+
+            background: rgba(233, 151, 253, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .cute-text {
+            margin: 20px;
+            position: relative;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 600;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.9);
+
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+
+        .bholder input {
+            appearance: none;
+            border: none;
+            padding: 25px;
+            font-size: 24px;
+            border-radius: 12px;
+            color: white;
+            transition: all 0.4s ease-in;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #tak {
+            background: rgba(80,210,100,0.8);
+        }
+
+        #nie {
+            background: rgba(250,80,100,0.4);
+
+        }
+
+        #nie:hover {
+            background: rgba(250,80,100,0.9);
+            transform: scale(0.5);
+        }
+
+        #tak:hover {
+            background: rgba(80,210,100,0.8);
+            transform: scale(2);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-app">
+        <div class="cute-text">will u be my valentine?</div>
+        <div class="bholder">
+            <input type="submit" value="Yes" id="tak"/>
+            <input type="submit" value="No" id="nie"/>
+        </div>
+    </div>
+    <script>
+        const takBtn = document.getElementById('tak');
+        const nieBtn = document.getElementById('nie');
+        const cuteText = document.getElementsByClassName('cute-text')[0];
+
+        let counter = 0;
+        takBtn.addEventListener('click', function() {
+            cuteText.innerText = "<3";
+            this.style.transform = 'scale(' + (this.style.transform === '' ? 2 : parseFloat(this.style.transform.replace('scale(', '').replace(')', '')) + 1) + ')';
+            nieBtn.style.transform = 'scale(' + (nieBtn.style.transform === '' ? 0.5 : Math.max(parseFloat(nieBtn.style.transform.replace('scale(', '').replace(')', '')) - 0.5, 0.5)) + ')';
+        });
+
+        nieBtn.addEventListener('click', function() {
+            counter++;
+            if (counter === 1) {
+                console.log("Its one!")
+                cuteText.innerText = "pls be my valentine :(";
+            }
+            else if (counter === 3) {
+                console.log("Its three!")
+                cuteText.innerText = "last chance <3";
+                nieBtn.style.display = "none";
+            }
+
+            this.style.transform = 'scale(' + (this.style.transform === '' ? 0.5 : Math.max(parseFloat(this.style.transform.replace('scale(', '').replace(')', '')) - 0.5, 0.5)) + ')';
+            takBtn.style.transform = 'scale(' + (takBtn.style.transform === '' ? 2 : parseFloat(takBtn.style.transform.replace('scale(', '').replace(')', '')) + 1) + ')';
+            console.log(counter);
+        });
+    </script>
+</body>
+</html>

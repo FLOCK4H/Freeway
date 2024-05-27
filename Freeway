@@ -20,6 +20,7 @@ from FreewayTools.beacon_spam import BeaconSpam
 from FreewayTools.fuzzer import Fuzzer
 from FreewayTools.audit import Audit
 from FreewayTools.hopper import channel_hopper
+from FreewayTools.evil_twin import Cappy, WebServer, shutdown_network, safecall
 
 cc = ColorCodes()
 
@@ -202,12 +203,14 @@ class Freewayer:
                 "4": self.start_fuzzing,
                 "5": self.start_audit,
                 "6": self.start_hopper,
+                "7": self.start_evil_twin,
                 "monitor": self.start_monitoring,
                 "deauth": self.start_deauth,
                 "beacon_spam": self.start_beacon_spam,
                 "fuzzer": self.start_fuzzing,
                 "audit": self.start_audit,
-                "hopper": self.start_hopper
+                "hopper": self.start_hopper,
+                "eviltwin": self.start_evil_twin
             }
             self.small_term = self.welcome.columns < 80
             self.logo = f"""{self.short_logo if self.small_term else self.norm_logo}"""
@@ -232,6 +235,7 @@ class Freewayer:
             cprint("4) Packet Fuzzer")
             cprint("5) Network Audit")
             cprint("6) Channel Hopper")
+            cprint("7) Evil Twin")
             eline()
         else:
             cprint(f"1) Packet Monitor  {cc.CYAN}──>{cc.GREEN}  Catch APs, Stations, PMKIDs, Handshakes and more..")
@@ -240,7 +244,7 @@ class Freewayer:
             cprint(f"4) Packet Fuzzer\x20\x20 {cc.CYAN}──>{cc.GREEN}  Inject packets that may cause an AP to crash or freeze")
             cprint(f"5) Network Audit\x20\x20 {cc.CYAN}──>{cc.GREEN}  Try to gather all possible information about specific AP")
             cprint(f"6) Channel Hopper  {cc.CYAN}──>{cc.GREEN}  Hop between channels periodically (run in separate window)")
-            
+            cprint(f"7) Evil Twin       {cc.CYAN}──>{cc.GREEN}  Host an Access Point with Captive Portal to harvest credentials")
             eline()
         option = cinput("Enter option's number", b=True).replace(" ", "")
         return option
@@ -454,6 +458,22 @@ class Freewayer:
         channel_hopper(self.wlan, delay or 1, ran or "1-11")
         cinput("Press enter to go back to Freeway")
         self.act()
+
+    def start_evil_twin(self, parms=None):
+        cappy = Cappy(self.wlan)
+
+        try:
+            iprint("Starting hostapd...")
+            safecall(f"sudo systemctl start hostapd")
+            WebServer(cappy.ip_addr)
+            while True:
+                # Keep the app busy
+                time.sleep(1)
+        except KeyboardInterrupt:
+            print()
+            wprint("Exiting..\n")
+            shutdown_network(cappy.interface, cappy.ip_addr)
+            sys.exit(0)
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Freeway for Network Pentesting")

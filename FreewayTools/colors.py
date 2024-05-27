@@ -31,7 +31,7 @@ def wprint(string):
     print(f'{ColorCodes.WHITE}[+]{ColorCodes.RESET}' + ' ' + f'{ColorCodes.RED}{string}{ColorCodes.RESET}')
 
 def iprint(string):
-    print(f'{ColorCodes.GREEN}[{ColorCodes.RED}3WAY{ColorCodes.GREEN}]{ColorCodes.RESET}' + ' ' + f'{ColorCodes.WHITE}{ColorCodes.BRIGHT}{string}{ColorCodes.BRIGHT}{ColorCodes.RESET} ')
+    print(f'{ColorCodes.BRIGHT}{ColorCodes.GREEN}[{ColorCodes.RED}3WAY{ColorCodes.GREEN}]{ColorCodes.RESET}' + ' ' + f'{ColorCodes.WHITE}{ColorCodes.BRIGHT}{string}{ColorCodes.BRIGHT}{ColorCodes.RESET} ')
 
 def oneline(string, sys, color=ColorCodes.GREEN):
     sys.stdout.write(f'\r{ColorCodes.GREEN}[{ColorCodes.RED}3WAY{ColorCodes.GREEN}]{ColorCodes.RESET}' + ' ' + f"{color}{ColorCodes.BRIGHT}{string}{ColorCodes.RESET}")
