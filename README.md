@@ -166,9 +166,18 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 > 1. Fixed rare RuntimeError in deauth.py caused by iterating on dynamicly changing size dictionary
 > 2. Further improvements of beacon packet formatting in beacon_spam.py
 
+> 27.05
+> 1. Added `updater.py`
+> 2. Added `evil_twin.py`
+> 3. Added `/templates` folder
+> 4. Added Evil Twin to actions list
+> 5. Updated README.md
+> 6. PyPi Release 
+
 <h2>Known Issues</h2>
 
 > 1. Android filters out fake beacon frames (works for Android 5, doesn't on Android 11+, versions below Android 11  and above Android 5 were not tested.)
+> 2. EvilTwin needs a second adapter connected to the internet (Not really an issue), to be able to reroute traffic 
 
 <h2><strong>Legal Note</strong></h2>
 
