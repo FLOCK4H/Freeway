@@ -1,7 +1,7 @@
 import requests
 import subprocess
 from FreewayTools.colors import *
-import time
+import time, os
 
 GITHUB_REPO = "FLOCK4H/Freeway"
 
@@ -21,7 +21,7 @@ def get_latest_version():
         wprint(str(e))
 
 def get_current_version():
-    return "1.2.1"
+    return "1.2.2"
 
 def update():
     cprint("Checking for updates..")
@@ -36,7 +36,10 @@ def update():
     if current_version != latest_version:
         cprint(f"New version available: {latest_version}")
         if cinput("Update Freeway? (y/n)") == "y":
-            subprocess.run(["git", "pull", "origin", "main"], check=True)
+            if os.path.exists("FreewayTools"):
+                subprocess.run(["git", "pull", "origin", "main"], check=True)
+            else:
+                subprocess.run(["sudo", "pip", "install", "--upgrade", "3way"])
             iprint("Update completed. Please restart Freeway.")
     else:
         iprint("You are using the latest version of Freeway.")
