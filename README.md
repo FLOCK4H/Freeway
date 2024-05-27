@@ -27,6 +27,7 @@
 - Packet Fuzzer
 - Network Audit
 - Channel Hopper
+- Evil Twin
 
 <sub>Description of the features can be found in Section 6</sub>
 
@@ -41,6 +42,14 @@ It is **necessary** to have:
 
 <h2><strong>4. Setup</strong></h2>
 
+A: Install via PyPi (pip)
+
+```
+  $ sudo pip install 3way
+```
+
+B: Install or run manually
+
 First, clone the repository:
 
     git clone https://github.com/FLOCK4H/Freeway
@@ -49,13 +58,13 @@ Navigate to the cloned repository:
 
     cd Freeway
 
-<strong>A:</strong> Install dependencies and Freeway.
+<strong>Option 1:</strong> Install dependencies and Freeway.
 
 <sub>This will allow to launch the tool from anywhere</sub>
 
     sudo pip install .
 
-<strong>B:</strong> Run without installation using Python.
+<strong>Option 2:</strong> Run without installation using Python.
 
 <sub>Must be called from the /Freeway directory</sub>
 
@@ -112,7 +121,8 @@ And with the **additional arguments**, to skip the CLI partially or completely.
   3 or beacon_spam,
   4 or fuzzer,
   5 or audit,
-  6 or hopper
+  6 or hopper,
+  7 or eviltwin
 
   Parameters must be provided in the same format as in the CLI, specific for every action.
   To list all parameters for a given action, just provide -a argument without -p.
@@ -128,6 +138,7 @@ And with the **additional arguments**, to skip the CLI partially or completely.
 - **Packet Fuzzer** - Fuzzing is a technique of network vulnerability assesment by sending a wide array of malformed or semi-random data to network interfaces and observing the responses. Freeway covers: **Replay captured packets (RX&TX<sup>2</sup>)**, **Spam CTS/RTS or Probe requests** and **Flood an AP with Authentication or Association Frames**. Devices that will capture fuzzed packets will behave differently depending on vulnerability level of receiver (!USE WITH CAUTION!).
 - **Network Audit** - Gathers all possible information about specific network and returns them onto the curses view. Tracks all clients signal and last activity, as well as resolve the manufacturer.
 - **Channel Hopper** - Changes the current channel of the network adapter. Helpful in making specific attacks more successful.
+- **Evil Twin** - Hosts a legitimate Access Point with Captive Portal, this 'legitimate' AP asks user for login/ bank credentials, or to download malware. First, there's a normal AP created, most times with an ESSID and MAC of existing network. Then, we host our captive portal (e.g., login website), so a normal web server, that reroutes users to our `index.html` trying to associate with the network we spoof.
 
 <sup>1<sup>**Access Points**</sup></sup>
 
@@ -147,7 +158,7 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 ✅ Version & update checker
 
-★ PyPi Release
+✅ PyPi Release
 
 <h2>Changelog</h2>
 

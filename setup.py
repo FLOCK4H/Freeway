@@ -31,15 +31,22 @@ class PostInstallCommand(install):
         for template in ["google", "Valentines", "mrhacker", "mcd"]:
             if not os.path.exists(os.path.join(destination, template)):
                 shutil.copytree(f"{source}/{template}", f"{destination}/{template}")
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
     name='3way',
-    version='1.2.0',
+    version='1.2.1',
     author='FLOCK4H',
-    url='github.com/FLOCK4H/Freeway',
+    url='https://github.com/FLOCK4H/Freeway',
     description='Freeway for network pentesting',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     license="MIT",
     packages=find_packages(),
     install_requires=["scapy", "rich"],
+
     scripts=['Freeway'],
     cmdclass={
         'install': PostInstallCommand,
