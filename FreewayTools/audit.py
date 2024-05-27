@@ -10,12 +10,12 @@ from rich.console import Console
 from datetime import timedelta
 
 try:
-    from FreewayTools.colors import cprint, iprint, wprint, cinput, ColorCodes
+    from FreewayTools.colors import wprint
     from FreewayTools.monitor import get_signal_strength, save_hash_file, init_colors
     from FreewayTools.checkmac import check_manufacturer
 
 except ModuleNotFoundError:
-    from colors import cprint, iprint, wprint, cinput, ColorCodes
+    from colors import wprint
     from monitor import get_signal_strength, save_hash_file, init_colors
     from checkmac import check_manufacturer
 

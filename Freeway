@@ -21,6 +21,7 @@ from FreewayTools.fuzzer import Fuzzer
 from FreewayTools.audit import Audit
 from FreewayTools.hopper import channel_hopper
 from FreewayTools.evil_twin import Cappy, WebServer, shutdown_network, safecall
+from FreewayTools.updater import update
 
 cc = ColorCodes()
 
@@ -94,6 +95,7 @@ script_dir = "/usr/local/share/3way"
 class Welcome:
     def __init__(self, action):
         self.fsecurity = False
+        update()
         self.action = action
         self.norm_logo = f"""{cc.BRIGHT}{cc.CYAN}
                                                    
@@ -140,7 +142,7 @@ class Welcome:
             cprint("1) Users must strictly adhere to local legal guidelines", cc.WHITE)
             cprint("2) Users must not disrupt, introduce chaos, cause damage to others, or to other devices in any circumstances", cc.ORANGE)
             cprint("3) Redistribution of this software must comply with MIT license standards", cc.WHITE)
-            cprint("4) The authors disclaim all liability for any damage caused by the use of this software", cc.ORANGE)
+            cprint("4) The author disclaims all liability for any damage caused by the use of this software", cc.ORANGE)
             cprint("5) In the event of an investigation, the author will not provide assistance to any parties", cc.WHITE)
             cprint("")
             cprint("Remember, the purpose of Freeway is to identify vulnerabilities, not to exploit them!", cc.WHITE)
@@ -244,7 +246,7 @@ class Freewayer:
             cprint(f"4) Packet Fuzzer\x20\x20 {cc.CYAN}──>{cc.GREEN}  Inject packets that may cause an AP to crash or freeze")
             cprint(f"5) Network Audit\x20\x20 {cc.CYAN}──>{cc.GREEN}  Try to gather all possible information about specific AP")
             cprint(f"6) Channel Hopper  {cc.CYAN}──>{cc.GREEN}  Hop between channels periodically (run in separate window)")
-            cprint(f"7) Evil Twin       {cc.CYAN}──>{cc.GREEN}  Host an Access Point with Captive Portal to harvest credentials")
+            cprint(f"7) Evil Twin       {cc.CYAN}──>{cc.GREEN}  Access Point with Captive Portal to harvest credentials")
             eline()
         option = cinput("Enter option's number", b=True).replace(" ", "")
         return option

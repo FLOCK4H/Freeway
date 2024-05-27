@@ -10,10 +10,10 @@ from random import choice
 import threading
 
 try:
-    from FreewayTools.colors import cprint, iprint, wprint, cinput, ColorCodes
+    from FreewayTools.colors import cprint, wprint, cinput, ColorCodes
 
 except ModuleNotFoundError:
-    from colors import cprint, iprint, wprint, cinput, ColorCodes
+    from colors import cprint, wprint, cinput, ColorCodes
 
 def random_mac():
     mac = [random.randint(0x00, 0xff) for _ in range(6)]

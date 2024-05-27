@@ -33,7 +33,7 @@ class PostInstallCommand(install):
                 shutil.copytree(f"{source}/{template}", f"{destination}/{template}")
 setup(
     name='3way',
-    version='1.1.2',
+    version='1.2.0',
     author='FLOCK4H',
     url='github.com/FLOCK4H/Freeway',
     description='Freeway for network pentesting',

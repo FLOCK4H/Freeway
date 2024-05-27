@@ -425,6 +425,7 @@ class Cappy:
         self.take_off_the_plastic_cap()
 
     def edit_config(self):
+        print("")
         changable = {1: "SSID", 2: "MAC", 3: "HW_MODE", 4: "DRIVER", 5: "CHANNEL", 6: "DEFAULT_APP", 7: "IP"}
         for idx, o in changable.items():
             cprint(f"{idx}) {o}")
@@ -436,6 +437,8 @@ class Cappy:
     def modify_value(self, v):
         new_val = cinput(f"Enter new value of {v}")
         self.config.write_app_config(**{v: new_val})
+        if v == "IP":
+            self.ip_addr = new_val
         cprint(f"Changed {v} to {new_val}!")
         time.sleep(1)
 
