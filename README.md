@@ -44,6 +44,10 @@ It is **necessary** to have:
 
 A: Install via PyPi (pip)
 
+> [!WARNING]
+> Installing via PyPi does not install `/lists` and `/templates` folders,
+> if you installed via PyPi, you need to move `/lists` and `/templates` folders from this repo to `/usr/local/share/3way`
+
 ```
   $ sudo pip install 3way
 ```
