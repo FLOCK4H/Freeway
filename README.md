@@ -44,7 +44,7 @@ It is **necessary** to have:
 
 A: Install via PyPi (pip)
 
-> [!WARNING]
+> [!IMPORTANT]
 > Installing via PyPi does not install `/lists` and `/templates` folders,
 > if you installed via PyPi, you need to move `/lists` and `/templates` folders from this repo to `/usr/local/share/3way`
 
@@ -52,7 +52,7 @@ A: Install via PyPi (pip)
   $ sudo pip install 3way
 ```
 
-B: Install or run manually
+B: Install or run manually (RECOMMENDED)
 
 First, clone the repository:
 
@@ -62,7 +62,7 @@ Navigate to the cloned repository:
 
     cd Freeway
 
-<strong>Option 1:</strong> Install dependencies and Freeway.
+<strong>Option 1:</strong> Install dependencies and Freeway. (RECOMMENDED)
 
 <sub>This will allow to launch the tool from anywhere</sub>
 
