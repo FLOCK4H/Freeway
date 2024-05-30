@@ -42,7 +42,7 @@ It is **necessary** to have:
 
 <h2><strong>4. Setup</strong></h2>
 
-Option A: Install via PyPi (pip)
+**Option A**: Install via PyPi (pip)
 
 > [!IMPORTANT]
 > Installing via PyPi does not install `/lists` and `/templates` folders,
@@ -52,7 +52,7 @@ Option A: Install via PyPi (pip)
   $ sudo pip install 3way
 ```
 
-Option B: Install or run manually (RECOMMENDED)
+**Option B**: Install or run manually (RECOMMENDED)
 
 First, clone the repository:
 
