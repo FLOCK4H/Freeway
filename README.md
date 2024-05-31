@@ -52,7 +52,7 @@ It is **necessary** to have:
   $ sudo pip install 3way
 ```
 
-**Option B**: Install or run manually (RECOMMENDED)
+**Option B**: Install or run manually **(RECOMMENDED)**
 
 First, clone the repository:
 
