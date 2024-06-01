@@ -11,9 +11,12 @@ import threading
 
 try:
     from FreewayTools.colors import cprint, wprint, cinput, ColorCodes
+    from FreewayTools.git_downloader import download_folder_from_github
 
 except ModuleNotFoundError:
     from colors import cprint, wprint, cinput, ColorCodes
+    from git_downloader import download_folder_from_github
+
 
 def random_mac():
     mac = [random.randint(0x00, 0xff) for _ in range(6)]
@@ -57,6 +60,16 @@ class BeaconSpam:
 
     def load_ssid_list(self, path="ssid_list.txt", path_d="/usr/local/share/3way/lists/"):
         try:
+            if not os.path.exists(path_d):
+                install_lists = cinput("/lists folder is not installed, install it now? (y/n) ")
+                if install_lists == "y":
+                    cprint("Downloading the lists folder from GitHub...")
+                    download_folder_from_github("FLOCK4H", "Freeway", "FreewayTools/lists", path_d)
+                elif install_lists == "n":
+                    wprint("Exiting due to missing folder exception! Please download lists folder.")
+                    time.sleep(1)
+                    sys.exit(0)
+
             joint = path_d + path
             if self.rand_select:
                 files = os.listdir(path_d)

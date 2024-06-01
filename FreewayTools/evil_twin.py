@@ -8,6 +8,12 @@ from http.server import SimpleHTTPRequestHandler, HTTPServer
 import threading
 import random
 
+try:
+    from FreewayTools.git_downloader import download_folder_from_github
+
+except ModuleNotFoundError:
+    from git_downloader import download_folder_from_github
+
 cc = ColorCodes()
 
 script_dir = "/usr/local/share/3way"
@@ -31,6 +37,13 @@ def change_mac_address(interface, mac="random"):
         print(f"Failed to change MAC address: {e}")
 
 def check_dependencies(dependencies):
+    temp_dir = f"/usr/local/share/3way/templates"
+    if not os.path.exists(temp_dir):
+        download_templates = cinput("/templates folder not installed! Download it now? (y/n)")
+        if download_templates == "y":
+            os.makedirs(temp_dir)
+            download_folder_from_github("FLOCK4H", "Freeway", "templates", temp_dir)
+
     for dep in dependencies:
         result = subprocess.run(["which", dep], capture_output=True, text=True)
         if result.returncode != 0:
