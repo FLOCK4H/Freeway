@@ -176,7 +176,13 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 > 3. Added `/templates` folder
 > 4. Added Evil Twin to actions list
 > 5. Updated README.md
-> 6. PyPi Release 
+> 6. PyPi Release
+
+> 3.05
+> 1. Added `git_downloader.py`
+> 2. Updated `beacon_spam`
+> 3. Updated `evil_twin`
+> 4. Posted new article: ![Medium](https://medium.com/@flytechoriginal/state-of-wifi-security-in-2024-b88091015cc2)
 
 <h2>Known Issues</h2>
 
