@@ -144,7 +144,7 @@ And with the **additional arguments**, to skip the CLI partially or completely.
 
 <sup>2<sup>**Transceive and receive at the same time**</sup></sup>
 
-<h2><strong>8. Uninstall</strong></h2>
+<h2><strong>7. Uninstall</strong></h2>
 
 In case where Freeway doesn't meet the expectations and was installed via pip, the removal process is as easy:
 
