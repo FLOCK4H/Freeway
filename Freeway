@@ -465,6 +465,8 @@ class Freewayer:
 
         crafting_table = CraftingTable(self.wlan, to_craft, addr1, addr2, addr3, ssid, threads, count, interval, loop=True)
         crafting_table.start_sending()
+        cinput("Press enter to go back to Freeway")
+        self.act()
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Freeway for Network Pentesting")
