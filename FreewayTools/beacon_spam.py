@@ -61,7 +61,7 @@ class BeaconSpam:
     def load_ssid_list(self, path="ssid_list.txt", path_d="/usr/local/share/3way/lists/"):
         try:
             if not os.path.exists(path_d):
-                install_lists = cinput("/lists folder is not installed, install it now? (y/n) ")
+                install_lists = cinput("/lists folder is not installed, install it now? (y/n)")
                 if install_lists == "y":
                     cprint("Downloading the lists folder from GitHub...")
                     download_folder_from_github("FLOCK4H", "Freeway", "FreewayTools/lists", path_d)

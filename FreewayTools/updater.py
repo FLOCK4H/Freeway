@@ -21,7 +21,7 @@ def get_latest_version():
         wprint(str(e))
 
 def get_current_version():
-    return "1.2.4"
+    return "1.3.0"
 
 def update():
     cprint("Checking for updates..")
@@ -30,7 +30,7 @@ def update():
     latest_version = get_latest_version()
     if latest_version is None:
         wprint("You are not connected to any network, I can't fetch updates...")
-        time.sleep(0.8)
+        time.sleep(2)
         return
     
     if current_version != latest_version:

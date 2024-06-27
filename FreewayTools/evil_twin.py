@@ -38,12 +38,12 @@ def change_mac_address(interface, mac="random"):
 
 def check_dependencies(dependencies):
     temp_dir = f"/usr/local/share/3way/templates"
-    if not os.path.exists(temp_dir):
+    if not os.path.exists(temp_dir) or os.listdir(temp_dir) == []:
         download_templates = cinput("/templates folder not installed! Download it now? (y/n)")
         if download_templates == "y":
-            os.makedirs(temp_dir)
+            os.makedirs(temp_dir, exist_ok=True)
             download_folder_from_github("FLOCK4H", "Freeway", "templates", temp_dir)
-
+        
     for dep in dependencies:
         result = subprocess.run(["which", dep], capture_output=True, text=True)
         if result.returncode != 0:

@@ -158,6 +158,10 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 ✅ PyPi Release
 
+☑️ Packet Crafter (almost done)
+
+☑️ ARP Spoofer
+
 <h2>Changelog</h2>
 
 > 19.05

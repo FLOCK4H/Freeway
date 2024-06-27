@@ -21,6 +21,7 @@ from FreewayTools.fuzzer import Fuzzer
 from FreewayTools.audit import Audit
 from FreewayTools.hopper import channel_hopper
 from FreewayTools.evil_twin import Cappy, WebServer, shutdown_network, safecall
+from FreewayTools.pkt_crafter import CraftingTable, list_packets
 from FreewayTools.updater import update
 
 cc = ColorCodes()
@@ -94,7 +95,6 @@ script_dir = "/usr/local/share/3way"
 
 class Welcome:
     def __init__(self, action):
-        self.fsecurity = False
         update()
         self.action = action
         self.norm_logo = f"""{cc.BRIGHT}{cc.CYAN}
@@ -122,7 +122,6 @@ class Welcome:
         if action is None:
             self.intro()
             time.sleep(2.2)
-        self.check_ask_eula()
 
     def intro(self):
         clean()
@@ -130,38 +129,6 @@ class Welcome:
             print(self.short_logo)
         else:
             print(self.norm_logo)
-    
-    def check_ask_eula(self):
-        if os.path.exists(os.path.join(script_dir, "EULA.txt")):
-            self.fsecurity = True
-            return
-        try:
-            clean()
-            cprint("------------------------------- EULA -------------------------------")
-            cprint("")
-            cprint("1) Users must strictly adhere to local legal guidelines", cc.WHITE)
-            cprint("2) Users must not disrupt, introduce chaos, cause damage to others, or to other devices in any circumstances", cc.ORANGE)
-            cprint("3) Redistribution of this software must comply with MIT license standards", cc.WHITE)
-            cprint("4) The author disclaims all liability for any damage caused by the use of this software", cc.ORANGE)
-            cprint("5) In the event of an investigation, the author will not provide assistance to any parties", cc.WHITE)
-            cprint("")
-            cprint("Remember, the purpose of Freeway is to identify vulnerabilities, not to exploit them!", cc.WHITE)
-            print("")
-
-            self.eula = cinput("Do you accept the EULA? (yes/no)", cc.LIGHT_GREEN)
-            if self.eula == "yes":
-                cprint("Saving the EULA..")
-                with open(os.path.join(script_dir, "EULA.txt"), "w") as f:
-                    f.write("User agreed to the EULA.")
-                    self.fsecurity = True
-                time.sleep(1)
-                clean()
-            else:
-                wprint("The EULA was not accepted!")
-                time.sleep(2)
-                sys.exit(1)
-        except Exception as e:
-            wprint(f"Exception in check_ask_eula: {e}")
 
 def eline():
     """
@@ -196,35 +163,32 @@ class Freewayer:
             self.set_wlan_interface()
 
     def init_app(self):
-        try:
-            assert self.welcome, "Invalid agree to EULA"
-            self.option_dict = {
-                "1": self.start_monitoring,
-                "2": self.start_deauth,
-                "3": self.start_beacon_spam,
-                "4": self.start_fuzzing,
-                "5": self.start_audit,
-                "6": self.start_hopper,
-                "7": self.start_evil_twin,
-                "monitor": self.start_monitoring,
-                "deauth": self.start_deauth,
-                "beacon_spam": self.start_beacon_spam,
-                "fuzzer": self.start_fuzzing,
-                "audit": self.start_audit,
-                "hopper": self.start_hopper,
-                "eviltwin": self.start_evil_twin
-            }
-            self.small_term = self.welcome.columns < 80
-            self.logo = f"""{self.short_logo if self.small_term else self.norm_logo}"""
-            self.underline = lambda x: "─" * x
-            self.interfaces = self.interface if self.interface != [] else get_interface()
-            if self.interface == []:
-                show_interfaces(self.interfaces)
-            self.wlan = self.set_wlan_interface() if self.interface == [] else self.interfaces
-            self.act() if self.action is None else self.arg_action(self.action, self.parms)
-        except AssertionError:
-            wprint("EULA not accepted!")
-            sys.exit(0)
+        self.option_dict = {
+            "1": self.start_monitoring,
+            "2": self.start_deauth,
+            "3": self.start_beacon_spam,
+            "4": self.start_fuzzing,
+            "5": self.start_audit,
+            "6": self.start_hopper,
+            "7": self.start_evil_twin,
+            "8": self.start_packet_crafter,
+            "monitor": self.start_monitoring,
+            "deauth": self.start_deauth,
+            "beacon_spam": self.start_beacon_spam,
+            "fuzzer": self.start_fuzzing,
+            "audit": self.start_audit,
+            "hopper": self.start_hopper,
+            "eviltwin": self.start_evil_twin,
+            "packet_crafter": self.start_packet_crafter
+        }
+        self.small_term = self.welcome.columns < 80
+        self.logo = f"""{self.short_logo if self.small_term else self.norm_logo}"""
+        self.underline = lambda x: "─" * x
+        self.interfaces = self.interface if self.interface != [] else get_interface()
+        if self.interface == []:
+            show_interfaces(self.interfaces)
+        self.wlan = self.set_wlan_interface() if self.interface == [] else self.interfaces
+        self.act() if self.action is None else self.arg_action(self.action, self.parms)
 
     def show_menu(self):
         clean()
@@ -238,6 +202,7 @@ class Freewayer:
             cprint("5) Network Audit")
             cprint("6) Channel Hopper")
             cprint("7) Evil Twin")
+            cprint("8) Packet Crafter")
             eline()
         else:
             cprint(f"1) Packet Monitor  {cc.CYAN}──>{cc.GREEN}  Catch APs, Stations, PMKIDs, Handshakes and more..")
@@ -246,7 +211,8 @@ class Freewayer:
             cprint(f"4) Packet Fuzzer\x20\x20 {cc.CYAN}──>{cc.GREEN}  Inject packets that may cause an AP to crash or freeze")
             cprint(f"5) Network Audit\x20\x20 {cc.CYAN}──>{cc.GREEN}  Try to gather all possible information about specific AP")
             cprint(f"6) Channel Hopper  {cc.CYAN}──>{cc.GREEN}  Hop between channels periodically (run in separate window)")
-            cprint(f"7) Evil Twin       {cc.CYAN}──>{cc.GREEN}  Access Point with Captive Portal to harvest credentials")
+            cprint(f"7) Evil Twin       {cc.CYAN}──>{cc.GREEN}  Access Point with Captive Portal for credential harvesting")
+            cprint(f"8) Packet Crafter  {cc.CYAN}──>{cc.GREEN}  Prepare and send any Dot11 packet using the CLI")
             eline()
         option = cinput("Enter option's number", b=True).replace(" ", "")
         return option
@@ -260,7 +226,7 @@ class Freewayer:
             action(parms)
         except IndexError:
             eline()
-            iprint(f"Make sure you entered enough parameters, chosen action: {action}\nVisit Github to get more help!")
+            iprint(f"Make sure you entered enough parameters, chosen action: {action}\nVisit Github https://github.com/FLOCK4H/Freeway to get more help!")
             sys.exit(0)
 
     def act(self):
@@ -476,6 +442,29 @@ class Freewayer:
             wprint("Exiting..\n")
             shutdown_network(cappy.interface, cappy.ip_addr)
             sys.exit(0)
+
+    def start_packet_crafter(self):
+        clean()
+        cprint("1) Craft Packet")
+        cprint("2) List available packets")
+
+        option = cinput("Enter option's number")
+        if option == "1":
+            threads = cinput("Change number of threads to (input value or leave empty, default: 2)") or 2
+            count = cinput("Change number of packets to send to (input value or leave empty, default: 10)") or 10
+            interval = cinput("Change interval to (input value or leave empty, default: 0.1)") or 0.1
+            to_craft = cinput("Specify packet to craft")
+            addr1 = cinput("Enter address1 (or leave empty for random)").strip()
+            addr2 = cinput("Enter address2 (or leave empty for random)").strip()
+            addr3 = cinput("Enter address3 (or leave empty for random)").strip()
+            ssid = cinput("Enter SSID (optional)") or "Freeway"
+        elif option == "2":
+            list_packets()
+            cinput("Ready to go back? (enter)")
+            self.start_packet_crafter()
+
+        crafting_table = CraftingTable(self.wlan, to_craft, addr1, addr2, addr3, ssid, threads, count, interval, loop=True)
+        crafting_table.start_sending()
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Freeway for Network Pentesting")
