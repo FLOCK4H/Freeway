@@ -1,10 +1,13 @@
 """
     IEEE 802.11 Packet Monitor using curses module as display,
     + captures PMKIDs & Handshakes + catches most clients
-    + checks manufacturer + filter options
+    + checks manufacturer + has filter options
+    27.09.24 -> You can now summarize your hunt
 """
+
 import curses
 import time
+import os
 from datetime import datetime, timedelta
 from scapy.all import *
 from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11ProbeReq, Dot11ProbeResp, Dot11AssoReq, Dot11Auth, Dot11, Dot11Deauth, RadioTap, Dot11AssoResp, Dot11Disas, Dot11QoS
@@ -317,6 +320,7 @@ class Monitor:
         self.parms = parms or {}
         self.filters = filters or {}
         self.save = True if "f" in self.filters else False
+        self.summarize = True if "r" in self.filters else False
         self.caps_dir = os.path.join(self.script_dir, "caps")
         self.save_dir = os.path.join(self.script_dir, "caps/saved")
         self.session = self.new_session_number()
@@ -326,6 +330,7 @@ class Monitor:
         self.Clients = {}
         self.run_time = time.time()
         self.packet_handler = PacketHandler(self.APs, self.Clients, self.parms, self.script_dir)
+        self.for_summary = {"total": 0, "deauths": 0, "beacons": 0, "auths": 0, "probes": 0}
 
     def new_session_number(self):
         session_time = datetime.now().strftime('%m%d_%H%M%S')
@@ -338,19 +343,28 @@ class Monitor:
         if self.save:
             PcapWriter(f"{self.save_dir}/{self.session}", append=True, sync=True).write(packet)
         if EAPOL in packet or packet.haslayer(EAPOL):
+            self.for_summary["total"] += 1
             self.packet_handler.handle_eapol_frame(packet, timestamp)
         elif packet.haslayer(Dot11):
+            self.for_summary["total"] += 1
             if packet.haslayer(Dot11Beacon):
+                self.for_summary["beacons"] += 1
                 self.packet_handler.handle_dot11_beacon(packet, timestamp)
             elif packet.haslayer(Dot11ProbeReq):
+                self.for_summary["probes"] += 1
                 self.packet_handler.handle_dot11_probe_req(packet, timestamp)
             elif packet.haslayer(Dot11ProbeResp):
+                self.for_summary["probes"] += 1
                 self.packet_handler.handle_dot11_probe_resp(packet, timestamp)
             elif packet.haslayer(Dot11AssoReq):
+                self.for_summary["auths"] += 1
                 self.packet_handler.handle_dot11_asso_req(packet, timestamp)
             elif packet.haslayer(Dot11Auth):
+                self.for_summary["auths"] += 1
                 self.packet_handler.handle_dot11_auth(packet, timestamp)
             else:
+                if packet.haslayer(Dot11Deauth):
+                    self.for_summary["deauths"] += 1
                 self.packet_handler._handle_client_activity(packet, timestamp, update_ap=True)
     
     def determine_columns_count(self):
@@ -545,6 +559,39 @@ class Monitor:
 
         stdscr.refresh()
 
+    def summary(self):
+        logging.debug("Generating summary report...")
+        
+        data = {
+            "Runtime": " ".join(self.calc_time(time.time() - self.run_time)),
+            "APs": len(self.APs),
+            "Clients": len(self.Clients),
+            "APs MAC Adresses": list(self.APs.keys()),
+            "Clients MAC Adresses": list(self.Clients.keys()),
+            "Handshakes": sum(len(ap['Handshakes']) for ap in self.APs.values()),
+            "PMKIDs": sum(len(ap['PMKIDs']) for ap in self.APs.values()),
+            "AP Signals": {mac: ap['Signal'] for mac, ap in self.APs.items()},
+            "Client Signals": {mac: client['Signal'] for mac, client in self.Clients.items()},
+            "AP Channels": {mac: ap['Channel'] for mac, ap in self.APs.items()},
+            "AP Encryptions": {mac: ap['ENC'] for mac, ap in self.APs.items()},
+            "AP Manufacturers": {mac: ap.get('Manufacturer', 'Unknown') for mac, ap in self.APs.items()},
+            "Client Manufacturers": {mac: client.get('Manufacturer', 'Unknown') for mac, client in self.Clients.items()},
+            "========================================": "",
+            "Total packets captured": self.for_summary["total"],
+            "Beacons": self.for_summary["beacons"],
+            "Deauthentications": self.for_summary["deauths"],
+            "Authentications": self.for_summary["auths"],
+            "Probes":  self.for_summary["probes"],
+        }
+
+        try:
+            with open(f"{os.getcwd()}/summary_{datetime.now().strftime('%m_%d_%H%M%S')}.txt", 'w') as f:
+                for key, value in data.items():
+                    f.write(f"{key}: {value}\n")
+
+        except Exception as e:
+            logging.debug(f"Couldn't save summary due to {e}...")
+
     def start_sniffing(self, stdscr):
         self.mod_curses('enter', stdscr)
 
@@ -586,6 +633,9 @@ class Monitor:
         stdscr.refresh()
 
         self.mod_curses('leave', stdscr)
+
+        if self.summarize:
+            self.summary()
 
     def mod_curses(self, mod, stdscr):
         if mod == "enter":

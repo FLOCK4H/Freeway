@@ -1,19 +1,20 @@
 <div align="center">
   <img src="https://github.com/FLOCK4H/Freeway/assets/161654571/85eb939d-0154-4767-8aab-c3a5e29b1d6f" alt="Freeway logo" />
 
-  $${\color{red}Freeway\ for\ Network\ Pentesting}$$
+  **Freeway for Network Pentesting**
+
 </div>
 
 <div align="center">
 
 
-<strong>Read the article about Freeway, now on</strong>
+Read the article about Freeway, now on
 <a href="https://medium.com/@flytechoriginal/freeway-for-network-pentesting-e97e69e481fc">Medium</a>
 </div>
 <br />
 
 > [!NOTE]
-> Before using the software, the user must agree to the EULA when prompted
+> User will not be prompted to accept EULA anymore!<br />Therefore, by downloading the software, user automatically agrees to follow every guideline specified in EULA section below.
 
 <h2><strong>1. Overview</strong></h2>
 
@@ -28,6 +29,7 @@
 - Network Audit
 - Channel Hopper
 - Evil Twin
+- Packet Crafter
 
 <sub>Description of the features can be found in Section 6</sub>
 
@@ -123,6 +125,7 @@ And with the **additional arguments**, to skip the CLI partially or completely.
   5 or audit,
   6 or hopper,
   7 or eviltwin
+  8 or packet_crafter
 
   Parameters must be provided in the same format as in the CLI, specific for every action.
   To list all parameters for a given action, just provide -a argument without -p.
@@ -139,6 +142,7 @@ And with the **additional arguments**, to skip the CLI partially or completely.
 - **Network Audit** - Gathers all possible information about specific network and returns them onto the curses view. Tracks all clients signal and last activity, as well as resolve the manufacturer.
 - **Channel Hopper** - Changes the current channel of the network adapter. Helpful in making specific attacks more successful.
 - **Evil Twin** - Hosts a legitimate Access Point with Captive Portal, this 'legitimate' AP asks user for login/ bank credentials, or to download malware. First, there's a normal AP created, most times with an ESSID and MAC of existing network. Then, we host our captive portal (e.g., login website), so a normal web server, that reroutes users to our `index.html` trying to associate with the network we spoof.
+- **Packet Crafter** - Allows to construct proper .11 frames, modify them with custom values, and send in the air using multiple interfaces on a custom number of threads. Useful for quick packet delivery, educational activities, or threaded/ multi-node penetration. All encapsulated in a user-friendly interface with prompt-after-prompt typing. 
 
 <sup>1<sup>**Access Points**</sup></sup>
 
@@ -150,6 +154,20 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
     sudo pip uninstall 3way
 
+<h1>EULA</h1>
+
+**1)** Users must strictly adhere to local legal guidelines
+
+**2)** Users must not disrupt, introduce chaos, cause damage to others, or to other devices in any circumstances
+
+**3)** Redistribution of this software must comply with MIT license standards
+
+**4)** The author disclaims all liability for any damage caused by the use of this software
+
+**5)** In the event of an investigation, the author will not provide assistance to any parties
+
+**Remember, the purpose of Freeway is to identify vulnerabilities, not to exploit them!**
+
 <h2>TODO</h2>
 
 ✅ Evil Twin attack
@@ -158,9 +176,7 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 ✅ PyPi Release
 
-☑️ Packet Crafter (almost done)
-
-❌ ARP Spoofer
+✅ Packet Crafter
 
 <h2>Changelog</h2>
 
@@ -176,10 +192,16 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 > 5. Updated README.md
 > 6. PyPi Release
 
-> 3.05
+> 3.06
 > 1. Added `git_downloader.py`
 > 2. Updated `beacon_spam`
 > 3. Updated `evil_twin`
+
+> 27.06
+> 1. Removed `EULA` from script
+> 2. Added `EULA` to `README.md`
+> 3. Added `pkt_crafter.py`
+> 4. Modified `Freeway` script
 
 <h2>Known Issues</h2>
 

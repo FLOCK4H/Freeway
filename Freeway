@@ -12,6 +12,7 @@ import subprocess
 import string
 import argparse
 import shutil
+import readline
 
 from FreewayTools.colors import cprint, iprint, wprint, cinput, ColorCodes
 from FreewayTools.monitor import Monitor
@@ -257,12 +258,12 @@ class Freewayer:
         eline()
         cprint("─────FILTERS─────", cc.GREEN)
         eline()
-        filters = {"a": "Only APs", "c": "Only Clients", "e": "No empty APs", "s": "Stack equal ESSIDs", "n": "No lonely clients", "f": "Save output (.pcap)"}
+        filters = {"a": "Only APs", "c": "Only Clients", "e": "No empty APs", "s": "Stack equal ESSIDs", "n": "No lonely clients", "f": "Save output (.pcap)", "r": "Generate summary (.txt)"}
         for i, fi in filters.items():
             cprint(f"{i}) {fi}")
         eline()
         params_input = cinput("Enter numbers of addons and filters (all separated by comma ',') or press enter to skip")
-        params_input = params_input.split(",")
+        params_input = params_input.replace(" ", "").split(",") # tired of using "".join
 
         parms = {mods[str(i)]: None for i in params_input if i in mods and i in string.digits}
         ufilter = {fil: None for fil in params_input if fil in filters}
@@ -303,7 +304,7 @@ class Freewayer:
         eline()
         cprint("w) Enable whitelist")
         eline()
-        uchoice = cinput("User choice (number)")
+        uchoice = cinput("User choice (number)").replace(" ", "")
 
         if uchoice == "0":
             return self.act()
@@ -336,7 +337,7 @@ class Freewayer:
         cprint("t) Thread count")
         cprint("v) Verbose (debug)")
 
-        uchoice = cinput("User choice (number,letter e.g. 1rtv)")
+        uchoice = cinput("User choice (number,letter e.g. 1rtv)").replace(" ", "")
         
         BeaconSpam(interface=self.wlan, parms=uchoice).run_spam()
         cinput("Press enter to go back to Freeway")
@@ -362,7 +363,7 @@ class Freewayer:
         cprint("m) Enter target MAC")
         cprint("s) Specify ESSID")
 
-        uchoice = cinput("User choice (number, letter (1tvm))")
+        uchoice = cinput("User choice (number, letter (1tvm))").replace(" ", "")
 
         Fuzzer(interface=self.wlan, parms=uchoice).run_fuzzing()
         
@@ -416,7 +417,7 @@ class Freewayer:
         cprint("d) Change delay (default:1)", cc.GREEN)
         cprint("r) Change range (default:1-11)", cc.BLUE)
         eline()
-        mode = cinput("Enter options separated by comma")
+        mode = cinput("Enter options separated by comma").replace(" ", "")
         delay, ran = None, None
         if "d" in mode:
             delay = cinput("Enter delay time")
