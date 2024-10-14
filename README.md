@@ -60,7 +60,7 @@ Navigate to the cloned repository:
 
     cd Freeway
 
-<strong>Option 1:</strong> Install dependencies, folders, and Freeway. (RECOMMENDED)
+<strong>Option 1:</strong> Install dependencies, folders, and Freeway. (**RECOMMENDED**)
 
 <sub>This will allow to launch the tool from anywhere</sub>
 
