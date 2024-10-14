@@ -21,7 +21,7 @@ def get_latest_version():
         wprint(str(e))
 
 def get_current_version():
-    return "1.3.0"
+    return "1.4.0"
 
 def update():
     cprint("Checking for updates..")

@@ -37,7 +37,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='3way',
-    version='1.3.0',
+    version='1.4.0',
     author='FLOCK4H',
     url='https://github.com/FLOCK4H/Freeway',
     description='Freeway for network pentesting',
