@@ -85,6 +85,9 @@ This tool comes with its own **command line interface (CLI)** and can be run wit
 
 Follow the prompt to select the network adapter (see Section 3):
 
+> [!TIP}
+> These screenshots show Freeway in its very first iteration, these do not reflect how software looks now, and are to change in the future. 
+
 ![image](https://github.com/FLOCK4H/Freeway/assets/161654571/653c9304-3256-4444-8f3f-0677134c8af8)
 
 Select the feature and parameter(s):
