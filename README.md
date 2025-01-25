@@ -30,6 +30,7 @@ Read the article about Freeway, now on
 - Channel Hopper
 - Evil Twin
 - Packet Crafter
+- Arsenal
 
 <sub>Description of the features can be found in Section 6</sub>
 
@@ -114,6 +115,7 @@ And with the **additional arguments**, to skip the CLI partially or completely.
 
 <div>
 <pre>
+  
   Arguments:
   -h, --help     Show the help message. <br />
   -i, --inf      Specify the WLAN interface (e.g., wlan0, wlan1). <br />
@@ -128,10 +130,12 @@ And with the **additional arguments**, to skip the CLI partially or completely.
   5 or audit,
   6 or hopper,
   7 or eviltwin
-  8 or packet_crafter
+  8 or packet_crafter,
+  9 or arsenal
 
   Parameters must be provided in the same format as in the CLI, specific for every action.
   To list all parameters for a given action, just provide -a argument without -p.
+  
 </pre>
 </div>
 </details>
@@ -145,7 +149,8 @@ And with the **additional arguments**, to skip the CLI partially or completely.
 - **Network Audit** - Gathers all possible information about specific network and returns them onto the curses view. Tracks all clients signal and last activity, as well as resolve the manufacturer.
 - **Channel Hopper** - Changes the current channel of the network adapter. Helpful in making specific attacks more successful.
 - **Evil Twin** - Hosts a legitimate Access Point with Captive Portal, this 'legitimate' AP asks user for login/ bank credentials, or to download malware. First, there's a normal AP created, most times with an ESSID and MAC of existing network. Then, we host our captive portal (e.g., login website), so a normal web server, that reroutes users to our `index.html` trying to associate with the network we spoof.
-- **Packet Crafter** - Allows to construct proper .11 frames, modify them with custom values, and send in the air using multiple interfaces on a custom number of threads. Useful for quick packet delivery, educational activities, or threaded/ multi-node penetration. All encapsulated in a user-friendly interface with prompt-after-prompt typing. 
+- **Packet Crafter** - Allows to construct proper .11 frames, modify them with custom values, and send in the air using multiple interfaces on a custom number of threads. Useful for quick packet delivery, educational activities, or threaded/ multi-node penetration. All encapsulated in a user-friendly interface with prompt-after-prompt typing.
+- **Arsenal** - Allows to include and manage user scripts within the app, has `CSA Spam` which is new.
 
 <sup>1<sup>**Access Points**</sup></sup>
 
