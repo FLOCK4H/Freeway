@@ -190,11 +190,11 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 <h2>Changelog</h2>
 
-> 19.05
+> 19.05.24
 > 1. Fixed rare RuntimeError in deauth.py caused by iterating on dynamicly changing size dictionary
 > 2. Further improvements of beacon packet formatting in beacon_spam.py
 
-> 27.05
+> 27.05.24
 > 1. Added `updater.py`
 > 2. Added `evil_twin.py`
 > 3. Added `/templates` folder
@@ -202,12 +202,12 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 > 5. Updated README.md
 > 6. PyPi Release
 
-> 3.06
+> 3.06.24
 > 1. Added `git_downloader.py`
 > 2. Updated `beacon_spam`
 > 3. Updated `evil_twin`
 
-> 27.06
+> 27.06.24
 > 1. Removed `EULA` from script
 > 2. Added `EULA` to `README.md`
 > 3. Added `pkt_crafter.py`
