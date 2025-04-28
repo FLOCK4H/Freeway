@@ -186,7 +186,7 @@ In case where Freeway doesn't meet the expectations and was installed via pip, t
 
 ✅ Packet Crafter
 
-❎ Freeway v1.5
+✅ Freeway v1.5
 
 <h2>Changelog</h2>
 
