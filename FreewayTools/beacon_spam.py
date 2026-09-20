@@ -46,7 +46,7 @@ class BeaconSpam:
     def generate_random_ssid_list(self):
         l = "abcdefghijklmnoprstqwxyz"
         n = "0123456789"
-        c = "!@#$%^&*()_+-=/?<.>,}{][;:\|~`"
+        c = "!@#$%^&*()_+-=/?<.>,}{][;:\\|~`"
         length = random.randint(8, 32)
         count = 2000
         ssids = []

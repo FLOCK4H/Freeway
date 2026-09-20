@@ -424,7 +424,7 @@ class Cappy:
         elif action == "2":
             name = cinput("Name the template")
             self.create_new_template(name)
-            iprint("Template created! Path: /usr/local/share/3way/templates/{} \ Name: {}".format(name, name))
+            iprint("Template created! Path: /usr/local/share/3way/templates/{} \\ Name: {}".format(name, name))
             time.sleep(2)
         elif action == "3":
             self.mod_template("edit")
